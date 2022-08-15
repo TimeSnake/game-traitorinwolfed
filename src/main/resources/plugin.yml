@@ -1,0 +1,9 @@
+main: de.timesnake.game.traitor_inwolfed.main.GameTraitorInwolfed
+version: 1.0
+name: game-traitor-inwolfed
+author: Mn
+depend: [ basic-lounge-bridge ]
+api-version: 1.13
+
+commands:
+     

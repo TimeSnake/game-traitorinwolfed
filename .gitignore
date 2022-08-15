@@ -1,0 +1,11 @@
+/out/
+/target/
+*.directory
+*.syncthing.*
+.idea/dataSources.xml
+.idea/dataSources
+/.gradle/
+/build/
+gradle_build.out
+gradlew
+gradlew.bat
