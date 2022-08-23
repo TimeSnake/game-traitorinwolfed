@@ -34,7 +34,7 @@ public class TraitorInwolfedTeam extends Team {
     public static final List<ExItemStack> TRAITOR_ITEMS = List.of(
             new ExItemStack(Material.IRON_SWORD).addExEnchantment(Enchantment.DAMAGE_ALL, 10).unbreakable().setSlot(0).setDropable(false).immutable(),
             new ExItemStack(Material.BOW).setSlot(1).addExEnchantment(Enchantment.ARROW_DAMAGE, 3).setDropable(false).immutable(),
-            new ExItemStack(Material.NETHERITE_SWORD).addExEnchantment(Enchantment.DAMAGE_ALL, 10).unbreakable().setSlot(2).setDropable(false).immutable(),
+            new ExItemStack(Material.NETHERITE_SWORD).addExEnchantment(Enchantment.DAMAGE_ALL, 20).unbreakable().setSlot(2).setDropable(false).immutable(),
             TraitorInwolfedServer.PLAYER_TRACKER,
             TraitorInwolfedServer.FOOD
 
