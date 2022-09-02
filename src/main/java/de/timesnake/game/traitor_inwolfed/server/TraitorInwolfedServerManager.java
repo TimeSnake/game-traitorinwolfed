@@ -146,7 +146,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
         this.gameRunning = true;
 
         String traitorNames = Chat.listToString(TraitorInwolfedServer.getGame().getTraitorTeam().getInGameUsers()
-                .stream().map(User::getChatNameComponent).toList());
+                .stream().map(User::getName).toList());
 
         BossBar traitorBossBar = Server.createBossBar("§cTraitors: " + traitorNames, BarColor.RED, BarStyle.SOLID);
 

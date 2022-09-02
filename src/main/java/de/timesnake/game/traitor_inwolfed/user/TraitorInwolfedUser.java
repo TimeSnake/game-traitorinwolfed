@@ -46,4 +46,9 @@ public class TraitorInwolfedUser extends GameUser {
     public TraitorInwolfedTeam getTeam() {
         return (TraitorInwolfedTeam) super.getTeam();
     }
+
+    @Override
+    public void broadcastKillstreak() {
+
+    }
 }
