@@ -76,8 +76,8 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
 
         private final String name;
         private final Tuple<String, String> textures;
-        private final Team team;
         private final ExLocation location;
+        private Team team;
         private PacketPlayer bodyEntity;
         private boolean found = false;
         private boolean identified = false;
@@ -108,6 +108,7 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
         public void found(TraitorInwolfedUser user, boolean identify) {
             if (this.getTeam().equals(TraitorInwolfedServer.getGame().getDetectiveTeam())) {
                 if (user.changeToDetective()) {
+                    this.team = TraitorInwolfedServer.getGame().getInnocentTeam();
                     return;
                 }
             }
