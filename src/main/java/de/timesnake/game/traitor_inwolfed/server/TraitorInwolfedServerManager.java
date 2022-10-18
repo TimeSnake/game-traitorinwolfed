@@ -21,11 +21,16 @@ package de.timesnake.game.traitor_inwolfed.server;
 import de.timesnake.basic.bukkit.util.Server;
 import de.timesnake.basic.bukkit.util.chat.ChatColor;
 import de.timesnake.basic.bukkit.util.user.User;
+import de.timesnake.basic.bukkit.util.user.scoreboard.NameTagVisibility;
 import de.timesnake.basic.bukkit.util.user.scoreboard.Sideboard;
+import de.timesnake.basic.bukkit.util.user.scoreboard.TablistableGroup;
+import de.timesnake.basic.bukkit.util.user.scoreboard.TablistablePlayer;
 import de.timesnake.basic.game.util.Team;
 import de.timesnake.basic.loungebridge.util.server.LoungeBridgeServerManager;
+import de.timesnake.basic.loungebridge.util.server.TablistManager;
 import de.timesnake.basic.loungebridge.util.tool.TimerTool;
 import de.timesnake.basic.loungebridge.util.user.GameUser;
+import de.timesnake.basic.loungebridge.util.user.TablistTeam;
 import de.timesnake.database.util.game.DbGame;
 import de.timesnake.database.util.game.DbTmpGame;
 import de.timesnake.game.traitor_inwolfed.main.Plugin;
@@ -129,6 +134,38 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
     @Override
     public GameUser loadUser(Player player) {
         return new TraitorInwolfedUser(player);
+    }
+
+    @Override
+    public TablistManager loadTablistManager() {
+        return new TablistManager() {
+            @Override
+            protected TablistTeam loadGameTeam() {
+                return new TablistTeam("0", "game", "", ChatColor.WHITE, ChatColor.WHITE) {
+                    @Override
+                    public NameTagVisibility isNameTagVisibleBy(TablistablePlayer player, TablistableGroup otherGroup) {
+                        TraitorInwolfedTeam traitorTeam = TraitorInwolfedServer.getGame().getTraitorTeam();
+                        if (traitorTeam.equals(((TraitorInwolfedUser) player).getTeam()) && traitorTeam.equals(otherGroup)) {
+                            System.out.println("traitor");
+                            return NameTagVisibility.ALWAYS;
+                        }
+
+                        if (TraitorInwolfedServer.getTablistSpectatorTeam().equals(otherGroup)) {
+                            System.out.println("spec");
+                            return NameTagVisibility.ALWAYS;
+                        }
+                        System.out.println("never");
+                        return NameTagVisibility.NEVER;
+                    }
+
+                    @Override
+                    public NameTagVisibility isNameTagVisible(TablistablePlayer player) {
+                        System.out.println("default");
+                        return NameTagVisibility.ALWAYS;
+                    }
+                };
+            }
+        };
     }
 
     @Override
