@@ -84,7 +84,6 @@ public class TraitorInwolfedMap extends Map implements ResetableMap, Timeable {
         this.getWorld().setExceptService(true);
 
         for (int index : this.getLocationsIds(ITEM_SPAWNERS_START_INDEX, ITEM_SPAWNERS_END_INDEX)) {
-            System.out.println(index);
             TraitorInwolfedServer.getToolManager().add(this, new ItemSpawner(index, TraitorInwolfedServer.SPAWNER_DELAY,
                     TraitorInwolfedServer.SPAWNER_RANGE, TraitorInwolfedServer.SPAWNER_ITEMS));
         }
@@ -104,6 +103,9 @@ public class TraitorInwolfedMap extends Map implements ResetableMap, Timeable {
     }
 
     public ExLocation getRandomTeleport() {
+        if (this.teleporterLocations.isEmpty()) {
+            return null;
+        }
         return this.teleporterLocations.get(Server.getRandom().nextInt(this.teleporterLocations.size()));
     }
 
