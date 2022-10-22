@@ -79,12 +79,13 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
             return;
         }
 
-        if (user.getTeam().equals(TraitorInwolfedServer.getGame().getTraitorTeam())) {
+        if (e.getTo().getBlock().equals(e.getFrom().getBlock())) {
             return;
         }
 
         for (DeadBody deadBody : this.deadBodies) {
-            if (deadBody.getLocation().getWorld().equals(location.getWorld()) && deadBody.getLocation().distanceSquared(location) <= RADIUS) {
+            if (deadBody.getLocation().getWorld().equals(location.getWorld())
+                    && deadBody.getLocation().distanceSquared(location) <= RADIUS * RADIUS) {
                 deadBody.found(user, user.getTeam().equals(TraitorInwolfedServer.getGame().getDetectiveTeam()));
             }
         }
@@ -124,7 +125,14 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
         }
 
         public void found(TraitorInwolfedUser user, boolean identify) {
-            if (this.getTeam().equals(TraitorInwolfedServer.getGame().getDetectiveTeam())) {
+            if (!user.isSneaking() && !this.found) {
+                user.showTitle(Component.empty(), Component.text("Sneak to find the body"),
+                        Duration.ofSeconds(2), Duration.ZERO, Duration.ZERO);
+                return;
+            }
+
+            if (!user.getTeam().equals(TraitorInwolfedServer.getGame().getTraitorTeam())
+                    && this.getTeam().equals(TraitorInwolfedServer.getGame().getDetectiveTeam())) {
                 if (user.changeToDetective()) {
                     this.team = TraitorInwolfedServer.getGame().getInnocentTeam();
                     return;
@@ -136,7 +144,7 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
                         Component.text(this.name, ExTextColor.VALUE)
                                 .append(Component.text(" was a ", ExTextColor.WARNING))
                                 .append(Component.text(this.getTeam().getDisplayName(), this.team.getTextColor())),
-                        Duration.ofSeconds(5));
+                        Duration.ofSeconds(5), Duration.ZERO, Duration.ZERO);
                 return;
             }
 
@@ -156,8 +164,9 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
                             Component.text(this.getTeam().getDisplayName(), this.team.getTextColor())
                                     .append(Component.text(" " + this.name, ExTextColor.WARNING))
                                     .append(Component.text(" was found dead", ExTextColor.WARNING)),
-                            Duration.ofSeconds(5));
-                    TraitorInwolfedServer.broadcastGameMessage(Component.text(this.getTeam().getDisplayName(), this.getTeam().getTextColor())
+                            Duration.ofSeconds(5), Duration.ZERO, Duration.ZERO);
+                    TraitorInwolfedServer.broadcastGameMessage(Component.text(this.getTeam().getDisplayName(),
+                                    this.getTeam().getTextColor())
                             .append(Component.text(this.name, ExTextColor.VALUE))
                             .append(Component.text(" was found dead", ExTextColor.WARNING)));
                 }
@@ -176,12 +185,14 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
         }
 
         public void spawn() {
-            ExPlayer deadBody = new ExPlayer(this.location.getExWorld().getBukkitWorld(), this.name);
+            ExPlayer deadBody = new ExPlayer(this.location.getExWorld().getBukkitWorld(), "_" + this.name);
 
             deadBody.setTextures(this.textures.getA(), this.textures.getB());
             deadBody.setPositionRotation(this.location.getX(), this.location.getY() + 0.2, this.location.getZ(), 120, 0);
             deadBody.setNoGravity(true);
-            deadBody.setCustomName(this.name);
+            deadBody.setPlayerListName("" + this.name + " (dead)");
+            deadBody.setDisplayName("" + this.name + " (dead)");
+            deadBody.setCustomName(this.name + "§7 (dead)");
             deadBody.setCustomNameVisible(true);
 
             deadBody.setPose(ExEntityPose.SLEEPING);

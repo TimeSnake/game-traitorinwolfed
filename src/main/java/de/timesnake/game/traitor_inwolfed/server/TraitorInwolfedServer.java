@@ -32,14 +32,14 @@ public class TraitorInwolfedServer extends LoungeBridgeServer {
 
     public static final ExItemStack GOLD = new ExItemStack(Material.SUNFLOWER).setDisplayName("§6Gold Coin").immutable();
 
-    public static final int SPAWNER_DELAY = 30;
+    public static final int SPAWNER_DELAY = 40;
     public static final int SPAWNER_RANGE = 10;
 
     public static final List<ExItemStack> SPAWNER_ITEMS = List.of(GOLD.cloneWithId());
 
     public static final ExItemStack PLAYER_TRACKER = new ExItemStack(Material.COMPASS).setSlot(7).setDropable(false).immutable();
     public static final ExItemStack FOOD = new ExItemStack(Material.COOKED_BEEF, 32).setSlot(8).immutable();
-
+    public static final int KILL_DELAY = 15; // in seconds
 
     public static TraitorInwolfedGame getGame() {
         return server.getGame();

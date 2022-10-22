@@ -18,13 +18,26 @@
 
 package de.timesnake.game.traitor_inwolfed.user;
 
+import de.timesnake.basic.bukkit.util.Server;
 import de.timesnake.basic.loungebridge.util.user.GameUser;
+import de.timesnake.game.traitor_inwolfed.main.GameTraitorInwolfed;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedServer;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedTeam;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
+
+import java.time.Duration;
 
 public class TraitorInwolfedUser extends GameUser {
+
+    private BukkitTask killDelayTask;
+    private int killDelay = TraitorInwolfedServer.KILL_DELAY;
+    private final BossBar killDelayBossBar = Server.createBossBar("Kill Delay: §7" + this.killDelay, BarColor.WHITE, BarStyle.SOLID);
 
     public TraitorInwolfedUser(Player player) {
         super(player);
@@ -40,8 +53,7 @@ public class TraitorInwolfedUser extends GameUser {
         TraitorInwolfedTeam team = this.getTeam();
 
         team.getItems().forEach(this::setItem);
-        this.setAttackSpeed(3);
-        this.setAttackDamage(4);
+        this.setPvpMode(true);
 
         this.setSideboard(TraitorInwolfedServer.getGameSideboard());
         this.setSideboardScore(3, team.getChatColor() + "" + ChatColor.BOLD + team.getDisplayName());
@@ -68,5 +80,27 @@ public class TraitorInwolfedUser extends GameUser {
     @Override
     public void broadcastKillstreak() {
 
+    }
+
+    public boolean isKillDelayRunning() {
+        return this.killDelay > 0;
+    }
+
+    public void runKillDelay() {
+        this.killDelay = TraitorInwolfedServer.KILL_DELAY;
+        this.addBossBar(this.killDelayBossBar);
+
+        this.killDelayTask = Server.runTaskTimerSynchrony(() -> {
+            this.killDelayBossBar.setTitle("Kill Delay: §7" + this.killDelay);
+
+            if (this.killDelay <= 0) {
+                this.killDelayTask.cancel();
+                this.removeBossBar(this.killDelayBossBar);
+                this.showTitle(Component.empty(), Component.text("§cRecharged"), Duration.ofSeconds(1));
+                return;
+            }
+
+            this.killDelay--;
+        }, 0, 20, GameTraitorInwolfed.getPlugin());
     }
 }
