@@ -20,6 +20,7 @@ package de.timesnake.game.traitor_inwolfed.user;
 
 import de.timesnake.basic.bukkit.util.Server;
 import de.timesnake.basic.bukkit.util.user.ExItemStack;
+import de.timesnake.basic.bukkit.util.user.User;
 import de.timesnake.basic.bukkit.util.user.event.*;
 import de.timesnake.game.traitor_inwolfed.main.GameTraitorInwolfed;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedServer;
@@ -27,6 +28,7 @@ import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedTeam;
 import de.timesnake.library.basic.util.Status;
 import de.timesnake.library.basic.util.chat.ExTextColor;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -45,6 +47,12 @@ public class UserManager implements Listener, UserInventoryInteractListener {
         e.setBroadcastDeathMessage(false);
         e.getDrops().clear();
         e.setAutoRespawn(true);
+
+        User killer = Server.getUser(e.getUser().getKiller());
+
+        if (killer != null) {
+            ((TraitorInwolfedUser) killer).runKillDelay();
+        }
     }
 
     @EventHandler
@@ -93,6 +101,20 @@ public class UserManager implements Listener, UserInventoryInteractListener {
                     user.addItem(TraitorInwolfedTeam.ARROW.cloneWithId());
                 }
             }, 1, GameTraitorInwolfed.getPlugin());
+        }
+    }
+
+    @EventHandler
+    public void onUserDamageByUser(UserDamageByUserEvent e) {
+        TraitorInwolfedUser damager = ((TraitorInwolfedUser) e.getUserDamager());
+
+        if (damager.isKillDelayRunning()) {
+            e.setDamage(0);
+            e.setCancelDamage(true);
+        } else {
+            if (e.getUserDamager().getInventory().getItemInMainHand().getType().equals(Material.IRON_SWORD)) {
+                e.setDamage(40);
+            }
         }
     }
 }

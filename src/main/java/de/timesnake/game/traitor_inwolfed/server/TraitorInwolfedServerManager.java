@@ -103,14 +103,14 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
             @Override
             public void onTimerUpdate() {
                 TraitorInwolfedServerManager.this.updateSideboardTime();
-                if (this.time % 60 == 0 && this.time > 0) {
+                if (this.getTime() % 60 == 0 && this.getTime() > 0) {
                     Server.broadcastNote(Instrument.PLING, Note.natural(1, Note.Tone.A));
                     Server.broadcastTitle(Component.empty(),
-                            Component.text(this.time / 60 + " min left", ExTextColor.PUBLIC),
+                            Component.text(this.getTime() / 60 + " min left", ExTextColor.PUBLIC),
                             Duration.ofSeconds(2));
                 }
 
-                if (this.time == 60) {
+                if (this.getTime() == 60) {
                     Server.getInGameUsers().forEach(u -> u.addPotionEffect(PotionEffectType.GLOWING, 60 * 20, 0));
                 }
             }
@@ -146,21 +146,17 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
                     public NameTagVisibility isNameTagVisibleBy(TablistablePlayer player, TablistableGroup otherGroup) {
                         TraitorInwolfedTeam traitorTeam = TraitorInwolfedServer.getGame().getTraitorTeam();
                         if (traitorTeam.equals(((TraitorInwolfedUser) player).getTeam()) && traitorTeam.equals(otherGroup)) {
-                            System.out.println("traitor");
                             return NameTagVisibility.ALWAYS;
                         }
 
                         if (TraitorInwolfedServer.getTablistSpectatorTeam().equals(otherGroup)) {
-                            System.out.println("spec");
                             return NameTagVisibility.ALWAYS;
                         }
-                        System.out.println("never");
                         return NameTagVisibility.NEVER;
                     }
 
                     @Override
                     public NameTagVisibility isNameTagVisible(TablistablePlayer player) {
-                        System.out.println("default");
                         return NameTagVisibility.ALWAYS;
                     }
                 };
@@ -206,7 +202,11 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
         BossBar traitorBossBar = Server.createBossBar("§cTraitors: " + traitorNames, BarColor.RED, BarStyle.SOLID);
 
         for (User user : TraitorInwolfedServer.getGame().getTraitorTeam().getInGameUsers()) {
-            user.setBossBar(traitorBossBar);
+            user.addBossBar(traitorBossBar);
+        }
+
+        for (User user : TraitorInwolfedServer.getInGameUsers()) {
+            ((TraitorInwolfedUser) user).runKillDelay();
         }
     }
 
