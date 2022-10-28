@@ -20,6 +20,7 @@ package de.timesnake.game.traitor_inwolfed.server;
 
 import de.timesnake.basic.bukkit.util.Server;
 import de.timesnake.basic.bukkit.util.world.ExLocation;
+import de.timesnake.basic.bukkit.util.world.ExWorld;
 import de.timesnake.basic.game.util.Map;
 import de.timesnake.basic.loungebridge.util.game.ItemSpawner;
 import de.timesnake.basic.loungebridge.util.game.ResetableMap;
@@ -72,15 +73,15 @@ public class TraitorInwolfedMap extends Map implements ResetableMap, Timeable {
         this.getWorld().setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
         this.getWorld().setGameRule(GameRule.RANDOM_TICK_SPEED, 0);
         this.getWorld().setGameRule(GameRule.DO_PATROL_SPAWNING, false);
-        this.getWorld().allowBlockBreak(false);
-        this.getWorld().allowBlockPlace(false);
-        this.getWorld().allowCakeEat(true);
-        this.getWorld().allowEntityExplode(false);
-        this.getWorld().allowFireSpread(false);
-        this.getWorld().allowFluidPlace(false);
-        this.getWorld().allowFluidCollect(false);
-        this.getWorld().allowEntityBlockBreak(false);
-        this.getWorld().allowPlaceInBlock(false);
+        this.getWorld().restrict(ExWorld.Restriction.BLOCK_BREAK, true);
+        this.getWorld().restrict(ExWorld.Restriction.BLOCK_PLACE, true);
+        this.getWorld().restrict(ExWorld.Restriction.CAKE_EAT, false);
+        this.getWorld().restrict(ExWorld.Restriction.ENTITY_EXPLODE, true);
+        this.getWorld().restrict(ExWorld.Restriction.FIRE_SPREAD, true);
+        this.getWorld().restrict(ExWorld.Restriction.FLUID_PLACE, true);
+        this.getWorld().restrict(ExWorld.Restriction.FLUID_COLLECT, true);
+        this.getWorld().restrict(ExWorld.Restriction.ENTITY_BLOCK_BREAK, true);
+        this.getWorld().restrict(ExWorld.Restriction.PLACE_IN_BLOCK, true);
         this.getWorld().setExceptService(true);
 
         for (int index : this.getLocationsIds(ITEM_SPAWNERS_START_INDEX, ITEM_SPAWNERS_END_INDEX)) {
