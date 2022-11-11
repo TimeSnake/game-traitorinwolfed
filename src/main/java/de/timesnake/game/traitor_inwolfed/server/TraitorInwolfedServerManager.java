@@ -1,5 +1,5 @@
 /*
- * game-traitor-inwolfed.main
+ * timesnake.game-traitor-inwolfed.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -80,7 +80,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
 
         this.setTeamMateDamage(true);
 
-        this.gameSideboard = Server.getScoreboardManager().registerNewSideboard("traitor_inwolfed",
+        this.gameSideboard = Server.getScoreboardManager().registerSideboard("traitor_inwolfed",
                 ChatColor.GOLD + "" + ChatColor.BOLD + this.getGame().getDisplayName());
 
         this.gameSideboard.setScore(6, TraitorInwolfedServer.SIDEBOARD_TIME_TEXT);
@@ -91,7 +91,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
         this.gameSideboard.setScore(1, TraitorInwolfedServer.SIDEBOARD_MAP_TEXT);
         // map
 
-        this.spectatorSideboard = Server.getScoreboardManager().registerNewSideboard("traitor_inwolfed",
+        this.spectatorSideboard = Server.getScoreboardManager().registerSideboard("traitor_inwolfed",
                 ChatColor.GOLD + "" + ChatColor.BOLD + this.getGame().getDisplayName());
         this.spectatorSideboard.setScore(4, TraitorInwolfedServer.SIDEBOARD_TIME_TEXT);
         // time
