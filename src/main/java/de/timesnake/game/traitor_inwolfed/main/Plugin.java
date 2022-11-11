@@ -1,5 +1,5 @@
 /*
- * game-traitor-inwolfed.main
+ * timesnake.game-traitor-inwolfed.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -18,11 +18,16 @@
 
 package de.timesnake.game.traitor_inwolfed.main;
 
+import de.timesnake.library.basic.util.LogHelper;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Plugin extends de.timesnake.basic.loungebridge.util.chat.Plugin {
 
-    public static final Plugin TRAITOR_INWOLFED = new Plugin("TraitorInwolfed", "GTI");
+    public static final Plugin TRAITOR_INWOLFED = new Plugin("TraitorInwolfed", "GTI", LogHelper.getLogger("TraitorInwolfed", Level.INFO));
 
-    protected Plugin(String name, String code) {
-        super(name, code);
+    protected Plugin(String name, String code, Logger logger) {
+        super(name, code, logger);
     }
 }
