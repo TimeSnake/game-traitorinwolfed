@@ -1,5 +1,5 @@
 /*
- * game-traitor-inwolfed.main
+ * workspace.game-traitorinwolfed.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -18,7 +18,7 @@
 
 package de.timesnake.game.traitor_inwolfed.server;
 
-import de.timesnake.basic.bukkit.util.exceptions.UnsupportedGroupRankException;
+import de.timesnake.basic.bukkit.util.exception.UnsupportedGroupRankException;
 import de.timesnake.basic.game.util.Map;
 import de.timesnake.basic.game.util.Team;
 import de.timesnake.basic.game.util.TmpGame;
