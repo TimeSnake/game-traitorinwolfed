@@ -1,5 +1,5 @@
 /*
- * game-traitor-inwolfed.main
+ * workspace.game-traitorinwolfed.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -34,8 +34,8 @@ import de.timesnake.library.basic.util.Status;
 import de.timesnake.library.basic.util.Tuple;
 import de.timesnake.library.basic.util.chat.ExTextColor;
 import de.timesnake.library.entities.entity.bukkit.ExPlayer;
-import de.timesnake.library.reflection.wrapper.ExEntityPose;
-import de.timesnake.library.reflection.wrapper.ExEnumItemSlot;
+import de.timesnake.library.entities.wrapper.ExEntityPose;
+import de.timesnake.library.entities.wrapper.ExEnumItemSlot;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
