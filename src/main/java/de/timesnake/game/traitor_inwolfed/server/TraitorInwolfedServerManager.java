@@ -1,5 +1,5 @@
 /*
- * timesnake.game-traitor-inwolfed.main
+ * workspace.game-traitorinwolfed.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -246,7 +246,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
             this.broadcastGameMessage(Component.text("Game ended", ExTextColor.PUBLIC));
         }
 
-        this.broadcastGameMessage("");
+        this.broadcastGameMessage(Component.empty());
 
         this.broadcastGameMessage(Component.text(traitorTeam.getDisplayName() + "s ", traitorTeam.getTextColor())
                 .append(Component.text(" :", ExTextColor.PUBLIC))
