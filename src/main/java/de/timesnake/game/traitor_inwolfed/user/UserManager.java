@@ -1,5 +1,5 @@
 /*
- * game-traitor-inwolfed.main
+ * workspace.game-traitorinwolfed.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -112,7 +112,8 @@ public class UserManager implements Listener, UserInventoryInteractListener {
             e.setDamage(0);
             e.setCancelDamage(true);
         } else {
-            if (e.getUserDamager().getInventory().getItemInMainHand().getType().equals(Material.IRON_SWORD)) {
+            if (e.getUserDamager().getInventory().getItemInMainHand().getType().equals(Material.IRON_SWORD)
+                    || e.getUserDamager().getInventory().getItemInMainHand().getType().equals(Material.GOLDEN_SWORD)) {
                 e.setDamage(40);
             }
         }
