@@ -24,7 +24,7 @@ import de.timesnake.basic.bukkit.util.user.event.AsyncUserMoveEvent;
 import de.timesnake.basic.bukkit.util.user.event.UserDeathEvent;
 import de.timesnake.basic.bukkit.util.world.ExLocation;
 import de.timesnake.basic.bukkit.util.world.entity.PacketPlayer;
-import de.timesnake.basic.game.util.Team;
+import de.timesnake.basic.game.util.game.Team;
 import de.timesnake.basic.loungebridge.util.tool.GameTool;
 import de.timesnake.basic.loungebridge.util.tool.ResetableTool;
 import de.timesnake.game.traitor_inwolfed.main.GameTraitorInwolfed;

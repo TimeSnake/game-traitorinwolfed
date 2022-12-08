@@ -19,9 +19,9 @@
 package de.timesnake.game.traitor_inwolfed.server;
 
 import de.timesnake.basic.bukkit.util.exception.UnsupportedGroupRankException;
-import de.timesnake.basic.game.util.Map;
-import de.timesnake.basic.game.util.Team;
-import de.timesnake.basic.game.util.TmpGame;
+import de.timesnake.basic.game.util.game.Map;
+import de.timesnake.basic.game.util.game.Team;
+import de.timesnake.basic.game.util.game.TmpGame;
 import de.timesnake.database.util.game.DbMap;
 import de.timesnake.database.util.game.DbTeam;
 import de.timesnake.database.util.game.DbTmpGame;

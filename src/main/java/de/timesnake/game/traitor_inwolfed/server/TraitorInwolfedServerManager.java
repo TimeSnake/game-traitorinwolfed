@@ -25,7 +25,8 @@ import de.timesnake.basic.bukkit.util.user.scoreboard.NameTagVisibility;
 import de.timesnake.basic.bukkit.util.user.scoreboard.Sideboard;
 import de.timesnake.basic.bukkit.util.user.scoreboard.TablistableGroup;
 import de.timesnake.basic.bukkit.util.user.scoreboard.TablistablePlayer;
-import de.timesnake.basic.game.util.Team;
+import de.timesnake.basic.bukkit.util.world.ExLocation;
+import de.timesnake.basic.game.util.game.Team;
 import de.timesnake.basic.loungebridge.util.server.LoungeBridgeServerManager;
 import de.timesnake.basic.loungebridge.util.server.TablistManager;
 import de.timesnake.basic.loungebridge.util.tool.TimerTool;
@@ -41,7 +42,6 @@ import de.timesnake.library.basic.util.chat.ExTextColor;
 import de.timesnake.library.extension.util.chat.Chat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Instrument;
-import org.bukkit.Location;
 import org.bukkit.Note;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -294,7 +294,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
     }
 
     @Override
-    public Location getSpectatorSpawn() {
+    public ExLocation getSpectatorSpawn() {
         return this.getMap().getSpectatorLocation();
     }
 

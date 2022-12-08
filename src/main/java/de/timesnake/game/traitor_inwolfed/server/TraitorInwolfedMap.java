@@ -1,5 +1,5 @@
 /*
- * game-traitor-inwolfed.main
+ * workspace.game-traitorinwolfed.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@ package de.timesnake.game.traitor_inwolfed.server;
 import de.timesnake.basic.bukkit.util.Server;
 import de.timesnake.basic.bukkit.util.world.ExLocation;
 import de.timesnake.basic.bukkit.util.world.ExWorld;
-import de.timesnake.basic.game.util.Map;
+import de.timesnake.basic.game.util.game.Map;
 import de.timesnake.basic.loungebridge.util.game.ItemSpawner;
 import de.timesnake.basic.loungebridge.util.game.ResetableMap;
 import de.timesnake.basic.loungebridge.util.tool.Timeable;

@@ -20,7 +20,7 @@ package de.timesnake.game.traitor_inwolfed.server;
 
 import de.timesnake.basic.bukkit.util.exception.UnsupportedGroupRankException;
 import de.timesnake.basic.bukkit.util.user.ExItemStack;
-import de.timesnake.basic.game.util.Team;
+import de.timesnake.basic.game.util.game.Team;
 import de.timesnake.database.util.game.DbTeam;
 import org.bukkit.Color;
 import org.bukkit.Material;
