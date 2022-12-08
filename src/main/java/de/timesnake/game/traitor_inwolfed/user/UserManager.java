@@ -113,8 +113,11 @@ public class UserManager implements Listener, UserInventoryInteractListener {
             e.setCancelDamage(true);
         } else {
             if (e.getUserDamager().getInventory().getItemInMainHand().getType().equals(Material.IRON_SWORD)
-                    || e.getUserDamager().getInventory().getItemInMainHand().getType().equals(Material.GOLDEN_SWORD)) {
+                    || e.getUserDamager().getInventory().getItemInMainHand().getType().equals(Material.GOLDEN_SWORD)
+                    || e.getUserDamager().getInventory().getItemInMainHand().getType().equals(Material.BOW)) {
                 e.setDamage(40);
+            } else {
+                e.setDamage(0);
             }
         }
     }
