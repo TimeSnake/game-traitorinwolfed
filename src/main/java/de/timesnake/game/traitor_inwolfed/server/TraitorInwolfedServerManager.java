@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 timesnake
+ * Copyright (C) 2023 timesnake
  */
 
 package de.timesnake.game.traitor_inwolfed.server;
@@ -77,8 +77,9 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
         this.gameSideboard.setScore(1, TraitorInwolfedServer.SIDEBOARD_MAP_TEXT);
         // map
 
-        this.spectatorSideboard = Server.getScoreboardManager().registerSideboard("traitor_inwolfed",
-                ChatColor.GOLD + "" + ChatColor.BOLD + this.getGame().getDisplayName());
+        this.spectatorSideboard = Server.getScoreboardManager()
+                .registerSideboard("traitor_inwolfed",
+                        ChatColor.GOLD + "" + ChatColor.BOLD + this.getGame().getDisplayName());
         this.spectatorSideboard.setScore(4, TraitorInwolfedServer.SIDEBOARD_TIME_TEXT);
         // time
         this.spectatorSideboard.setScore(2, "§r§f----------------");
@@ -97,7 +98,8 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
                 }
 
                 if (this.getTime() == 60) {
-                    Server.getInGameUsers().forEach(u -> u.addPotionEffect(PotionEffectType.GLOWING, 60 * 20, 0));
+                    Server.getInGameUsers()
+                            .forEach(u -> u.addPotionEffect(PotionEffectType.GLOWING, 60 * 20, 0));
                 }
             }
 
@@ -129,9 +131,12 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
             protected TablistTeam loadGameTeam() {
                 return new TablistTeam("0", "game", "", ChatColor.WHITE, ChatColor.WHITE) {
                     @Override
-                    public NameTagVisibility isNameTagVisibleBy(TablistablePlayer player, TablistableGroup otherGroup) {
-                        TraitorInwolfedTeam traitorTeam = TraitorInwolfedServer.getGame().getTraitorTeam();
-                        if (traitorTeam.equals(((TraitorInwolfedUser) player).getTeam()) && traitorTeam.equals(otherGroup)) {
+                    public NameTagVisibility isNameTagVisibleBy(TablistablePlayer player,
+                            TablistableGroup otherGroup) {
+                        TraitorInwolfedTeam traitorTeam = TraitorInwolfedServer.getGame()
+                                .getTraitorTeam();
+                        if (traitorTeam.equals(((TraitorInwolfedUser) player).getTeam())
+                                && traitorTeam.equals(otherGroup)) {
                             return NameTagVisibility.ALWAYS;
                         }
 
@@ -182,10 +187,12 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
     public void onGameStart() {
         this.gameRunning = true;
 
-        String traitorNames = Chat.listToString(TraitorInwolfedServer.getGame().getTraitorTeam().getInGameUsers()
-                .stream().map(User::getName).toList());
+        String traitorNames = Chat.listToString(
+                TraitorInwolfedServer.getGame().getTraitorTeam().getInGameUsers()
+                        .stream().map(User::getName).toList());
 
-        BossBar traitorBossBar = Server.createBossBar("§cTraitors: " + traitorNames, BarColor.RED, BarStyle.SOLID);
+        BossBar traitorBossBar = Server.createBossBar("§cTraitors: " + traitorNames, BarColor.RED,
+                BarStyle.SOLID);
 
         for (User user : TraitorInwolfedServer.getGame().getTraitorTeam().getInGameUsers()) {
             user.addBossBar(traitorBossBar);
@@ -209,7 +216,9 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
 
     @Override
     public void onGameStop() {
-        if (!this.isGameRunning()) return;
+        if (!this.isGameRunning()) {
+            return;
+        }
         this.gameRunning = false;
         this.broadcastGameMessage(Chat.getLongLineSeparator());
 
@@ -217,7 +226,8 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
         Team innocentTeam = this.getGame().getInnocentTeam();
         Team detectiveTeam = this.getGame().getDetectiveTeam();
 
-        if (this.timerTool.getTime() == 0 || innocentTeam.getInGameUsers().size() > 0 || detectiveTeam.getInGameUsers().size() > 0) {
+        if (this.timerTool.getTime() == 0 || innocentTeam.getInGameUsers().size() > 0
+                || detectiveTeam.getInGameUsers().size() > 0) {
             if (traitorTeam.getInGameUsers().size() == 0) {
                 this.broadcastWinner(innocentTeam);
                 for (User user : detectiveTeam.getUsers()) {
@@ -234,10 +244,13 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
 
         this.broadcastGameMessage(Component.empty());
 
-        this.broadcastGameMessage(Component.text(traitorTeam.getDisplayName() + "s ", traitorTeam.getTextColor())
-                .append(Component.text(" :", ExTextColor.PUBLIC))
-                .append(Chat.listToComponent(traitorTeam.getUsers().stream().map(User::getChatNameComponent).toList(),
-                        ExTextColor.VALUE, ExTextColor.PUBLIC)));
+        this.broadcastGameMessage(
+                Component.text(traitorTeam.getDisplayName() + "s ", traitorTeam.getTextColor())
+                        .append(Component.text(" :", ExTextColor.PUBLIC))
+                        .append(Chat.listToComponent(
+                                traitorTeam.getUsers().stream().map(User::getChatNameComponent)
+                                        .toList(),
+                                ExTextColor.VALUE, ExTextColor.PUBLIC)));
 
         this.broadcastGameMessage(Chat.getLongLineSeparator());
     }
@@ -245,14 +258,17 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
     private void broadcastWinner(Team team) {
         if (team != null) {
             Server.broadcastTitle(Component.text(team.getDisplayName() + "s", team.getTextColor())
-                    .append(Component.text(" win", ExTextColor.PUBLIC)), Component.empty(), Duration.ofSeconds(5));
-            this.broadcastGameMessage(Component.text(team.getDisplayName() + "s", team.getTextColor())
-                    .append(Component.text(" wins", ExTextColor.PUBLIC)));
+                            .append(Component.text(" win", ExTextColor.PUBLIC)), Component.empty(),
+                    Duration.ofSeconds(5));
+            this.broadcastGameMessage(
+                    Component.text(team.getDisplayName() + "s", team.getTextColor())
+                            .append(Component.text(" wins", ExTextColor.PUBLIC)));
             for (User user : team.getUsers()) {
                 user.addCoins(WIN_COINS, true);
             }
         } else {
-            Server.broadcastTitle(Component.text("Game has ended", ExTextColor.PUBLIC), Component.empty(),
+            Server.broadcastTitle(Component.text("Game has ended", ExTextColor.PUBLIC),
+                    Component.empty(),
                     Duration.ofSeconds(5));
             this.broadcastGameMessage(Component.text(" Game has ended", ExTextColor.PUBLIC));
         }

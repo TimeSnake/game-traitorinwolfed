@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 timesnake
+ * Copyright (C) 2023 timesnake
  */
 
 package de.timesnake.game.traitor_inwolfed.server;
@@ -47,7 +47,8 @@ public class TraitorInwolfedMap extends Map implements ResetableMap, Timeable {
                 try {
                     time = Integer.parseInt(value);
                 } catch (NumberFormatException e) {
-                    Server.printWarning(Plugin.TRAITOR_INWOLFED, "Can not load time of map " + this.getName(),
+                    Server.printWarning(Plugin.TRAITOR_INWOLFED,
+                            "Can not load time of map " + this.getName(),
                             "Map");
                 }
             }
@@ -71,13 +72,16 @@ public class TraitorInwolfedMap extends Map implements ResetableMap, Timeable {
         this.getWorld().setExceptService(true);
 
         for (int index : this.getLocationsIds(ITEM_SPAWNERS_START_INDEX, ITEM_SPAWNERS_END_INDEX)) {
-            TraitorInwolfedServer.getToolManager().add(this, new ItemSpawner(index, TraitorInwolfedServer.SPAWNER_DELAY,
-                    TraitorInwolfedServer.SPAWNER_RANGE, TraitorInwolfedServer.SPAWNER_ITEMS));
+            TraitorInwolfedServer.getToolManager()
+                    .add(this, new ItemSpawner(index, TraitorInwolfedServer.SPAWNER_DELAY,
+                            TraitorInwolfedServer.SPAWNER_RANGE,
+                            TraitorInwolfedServer.SPAWNER_ITEMS));
         }
 
         this.teleporterLocations = this.getLocations(TELEPORTER_START_INDEX, TELEPORTER_END_INDEX);
         if (this.teleporterLocations.isEmpty()) {
-            Server.printWarning(Plugin.TRAITOR_INWOLFED, "No teleporter locations found for map " + this.getName());
+            Server.printWarning(Plugin.TRAITOR_INWOLFED,
+                    "No teleporter locations found for map " + this.getName());
         }
     }
 
@@ -93,7 +97,8 @@ public class TraitorInwolfedMap extends Map implements ResetableMap, Timeable {
         if (this.teleporterLocations.isEmpty()) {
             return null;
         }
-        return this.teleporterLocations.get(Server.getRandom().nextInt(this.teleporterLocations.size()));
+        return this.teleporterLocations.get(
+                Server.getRandom().nextInt(this.teleporterLocations.size()));
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 timesnake
+ * Copyright (C) 2023 timesnake
  */
 
 package de.timesnake.game.traitor_inwolfed.user;
@@ -25,7 +25,8 @@ public class UserManager implements Listener, UserInventoryInteractListener {
 
     public UserManager() {
         Server.registerListener(this, GameTraitorInwolfed.getPlugin());
-        Server.getInventoryEventManager().addInteractListener(this, TraitorInwolfedServer.PLAYER_TRACKER);
+        Server.getInventoryEventManager()
+                .addInteractListener(this, TraitorInwolfedServer.PLAYER_TRACKER);
     }
 
     @EventHandler
@@ -56,15 +57,17 @@ public class UserManager implements Listener, UserInventoryInteractListener {
         Optional<TraitorInwolfedUser> other = user.getLocation().getNearbyPlayers(100).stream()
                 .map(p -> ((TraitorInwolfedUser) Server.getUser(p)))
                 .filter(u -> u.getStatus().equals(Status.User.IN_GAME)
-                             && !u.getTeam().equals(TraitorInwolfedServer.getGame().getTraitorTeam())
-                             && user.getWorld().equals(u.getWorld()))
+                        && !u.getTeam().equals(TraitorInwolfedServer.getGame().getTraitorTeam())
+                        && user.getWorld().equals(u.getWorld()))
                 .min((u1, u2) -> (int) (u1.getLocation().distanceSquared(user.getLocation())
-                                        - u2.getLocation().distanceSquared(user.getLocation())));
+                        - u2.getLocation().distanceSquared(user.getLocation())));
 
         if (other.isPresent()) {
             user.setCompassTarget(other.get().getLocation());
             user.sendActionBarText(Component.text("Distance: ", ExTextColor.WARNING)
-                    .append(Component.text(((int) user.getLocation().distance(other.get().getLocation())), ExTextColor.VALUE)));
+                    .append(Component.text(
+                            ((int) user.getLocation().distance(other.get().getLocation())),
+                            ExTextColor.VALUE)));
         }
 
     }
@@ -98,9 +101,12 @@ public class UserManager implements Listener, UserInventoryInteractListener {
             e.setDamage(0);
             e.setCancelDamage(true);
         } else {
-            if (e.getUserDamager().getInventory().getItemInMainHand().getType().equals(Material.IRON_SWORD)
-                || e.getUserDamager().getInventory().getItemInMainHand().getType().equals(Material.GOLDEN_SWORD)
-                || e.getUserDamager().getInventory().getItemInMainHand().getType().equals(Material.BOW)) {
+            if (e.getUserDamager().getInventory().getItemInMainHand().getType()
+                    .equals(Material.IRON_SWORD)
+                    || e.getUserDamager().getInventory().getItemInMainHand().getType()
+                    .equals(Material.GOLDEN_SWORD)
+                    || e.getUserDamager().getInventory().getItemInMainHand().getType()
+                    .equals(Material.BOW)) {
                 e.setDamage(40);
             } else {
                 e.setDamage(0);
