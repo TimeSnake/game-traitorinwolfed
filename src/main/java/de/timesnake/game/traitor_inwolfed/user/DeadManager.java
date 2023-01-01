@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 timesnake
+ * Copyright (C) 2023 timesnake
  */
 
 package de.timesnake.game.traitor_inwolfed.user;
@@ -61,7 +61,8 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
         TraitorInwolfedUser user = ((TraitorInwolfedUser) e.getUser());
         Location location = e.getTo();
 
-        if (user.isDead() || !user.getStatus().equals(Status.User.IN_GAME) || user.getTeam() == null) {
+        if (user.isDead() || !user.getStatus().equals(Status.User.IN_GAME)
+                || user.getTeam() == null) {
             return;
         }
 
@@ -72,7 +73,8 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
         for (DeadBody deadBody : this.deadBodies) {
             if (deadBody.getLocation().getWorld().equals(location.getWorld())
                     && deadBody.getLocation().distanceSquared(location) <= RADIUS * RADIUS) {
-                deadBody.found(user, user.getTeam().equals(TraitorInwolfedServer.getGame().getDetectiveTeam()));
+                deadBody.found(user,
+                        user.getTeam().equals(TraitorInwolfedServer.getGame().getDetectiveTeam()));
             }
         }
     }
@@ -129,7 +131,8 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
                 user.showTitle(Component.empty(),
                         Component.text(this.name, ExTextColor.VALUE)
                                 .append(Component.text(" was a ", ExTextColor.WARNING))
-                                .append(Component.text(this.getTeam().getDisplayName(), this.team.getTextColor())),
+                                .append(Component.text(this.getTeam().getDisplayName(),
+                                        this.team.getTextColor())),
                         Duration.ofSeconds(5), Duration.ZERO, Duration.ZERO);
                 return;
             }
@@ -140,21 +143,27 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
                     Server.broadcastTitle(Component.empty(),
                             Component.text(this.name, ExTextColor.VALUE)
                                     .append(Component.text(" was a ", ExTextColor.WARNING))
-                                    .append(Component.text(this.getTeam().getDisplayName(), this.team.getTextColor())),
+                                    .append(Component.text(this.getTeam().getDisplayName(),
+                                            this.team.getTextColor())),
                             Duration.ofSeconds(5));
-                    TraitorInwolfedServer.broadcastGameMessage(Component.text(this.name, ExTextColor.VALUE)
-                            .append(Component.text(" was a ", ExTextColor.WARNING))
-                            .append(Component.text(this.getTeam().getDisplayName(), this.team.getTextColor())));
+                    TraitorInwolfedServer.broadcastGameMessage(
+                            Component.text(this.name, ExTextColor.VALUE)
+                                    .append(Component.text(" was a ", ExTextColor.WARNING))
+                                    .append(Component.text(this.getTeam().getDisplayName(),
+                                            this.team.getTextColor())));
                 } else {
                     Server.broadcastTitle(Component.empty(),
-                            Component.text(this.getTeam().getDisplayName(), this.team.getTextColor())
+                            Component.text(this.getTeam().getDisplayName(),
+                                            this.team.getTextColor())
                                     .append(Component.text(" " + this.name, ExTextColor.WARNING))
                                     .append(Component.text(" was found dead", ExTextColor.WARNING)),
                             Duration.ofSeconds(5), Duration.ZERO, Duration.ZERO);
-                    TraitorInwolfedServer.broadcastGameMessage(Component.text(this.getTeam().getDisplayName(),
-                                    this.getTeam().getTextColor())
-                            .append(Component.text(this.name, ExTextColor.VALUE))
-                            .append(Component.text(" was found dead", ExTextColor.WARNING)));
+                    TraitorInwolfedServer.broadcastGameMessage(
+                            Component.text(this.getTeam().getDisplayName(),
+                                            this.getTeam().getTextColor())
+                                    .append(Component.text(this.name, ExTextColor.VALUE))
+                                    .append(Component.text(" was found dead",
+                                            ExTextColor.WARNING)));
                 }
                 return;
             }
@@ -171,10 +180,12 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
         }
 
         public void spawn() {
-            ExPlayer deadBody = new ExPlayer(this.location.getExWorld().getBukkitWorld(), "_" + this.name);
+            ExPlayer deadBody = new ExPlayer(this.location.getExWorld().getBukkitWorld(),
+                    "_" + this.name);
 
             deadBody.setTextures(this.textures.getA(), this.textures.getB());
-            deadBody.setPositionRotation(this.location.getX(), this.location.getY() + 0.2, this.location.getZ(), 120, 0);
+            deadBody.setPositionRotation(this.location.getX(), this.location.getY() + 0.2,
+                    this.location.getZ(), 120, 0);
             deadBody.setNoGravity(true);
             deadBody.setPlayerListName("" + this.name + " (dead)");
             deadBody.setDisplayName("" + this.name + " (dead)");
@@ -198,8 +209,12 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             DeadBody deadBody = (DeadBody) o;
             return Objects.equals(name, deadBody.name);
         }

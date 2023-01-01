@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 timesnake
+ * Copyright (C) 2023 timesnake
  */
 
 package de.timesnake.game.traitor_inwolfed.user;
@@ -23,7 +23,8 @@ public class TraitorInwolfedUser extends GameUser {
 
     private BukkitTask killDelayTask;
     private int killDelay = TraitorInwolfedServer.KILL_DELAY;
-    private final BossBar killDelayBossBar = Server.createBossBar("Kill Delay: §7" + this.killDelay, BarColor.WHITE, BarStyle.SOLID);
+    private final BossBar killDelayBossBar = Server.createBossBar("Kill Delay: §7" + this.killDelay,
+            BarColor.WHITE, BarStyle.SOLID);
 
     public TraitorInwolfedUser(Player player) {
         super(player);
@@ -42,7 +43,8 @@ public class TraitorInwolfedUser extends GameUser {
         this.setPvpMode(true);
 
         this.setSideboard(TraitorInwolfedServer.getGameSideboard());
-        this.setSideboardScore(3, team.getChatColor() + "" + ChatColor.BOLD + team.getDisplayName());
+        this.setSideboardScore(3,
+                team.getChatColor() + "" + ChatColor.BOLD + team.getDisplayName());
     }
 
     public boolean changeToDetective() {
@@ -82,7 +84,8 @@ public class TraitorInwolfedUser extends GameUser {
             if (this.killDelay <= 0) {
                 this.killDelayTask.cancel();
                 this.removeBossBar(this.killDelayBossBar);
-                this.showTitle(Component.empty(), Component.text("§cRecharged"), Duration.ofSeconds(1));
+                this.showTitle(Component.empty(), Component.text("§cRecharged"),
+                        Duration.ofSeconds(1));
                 return;
             }
 
