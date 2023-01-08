@@ -7,9 +7,8 @@ package de.timesnake.game.traitor_inwolfed.server;
 import de.timesnake.basic.bukkit.util.user.ExItemStack;
 import de.timesnake.basic.bukkit.util.user.scoreboard.Sideboard;
 import de.timesnake.basic.loungebridge.util.server.LoungeBridgeServer;
-import org.bukkit.Material;
-
 import java.util.List;
+import org.bukkit.Material;
 
 public class TraitorInwolfedServer extends LoungeBridgeServer {
 
@@ -28,7 +27,7 @@ public class TraitorInwolfedServer extends LoungeBridgeServer {
             .setDropable(false).immutable();
     public static final ExItemStack FOOD = new ExItemStack(Material.COOKED_BEEF, 32).setSlot(8)
             .immutable();
-    public static final int KILL_DELAY = 15; // in seconds
+    public static final int KILL_DELAY = 25; // in seconds
 
     public static TraitorInwolfedGame getGame() {
         return server.getGame();
