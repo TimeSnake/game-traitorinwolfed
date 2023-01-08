@@ -26,6 +26,7 @@ import de.timesnake.game.traitor_inwolfed.user.TraitorInwolfedUser;
 import de.timesnake.game.traitor_inwolfed.user.UserManager;
 import de.timesnake.library.basic.util.chat.ExTextColor;
 import de.timesnake.library.extension.util.chat.Chat;
+import java.time.Duration;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Instrument;
 import org.bukkit.Note;
@@ -34,8 +35,6 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
-
-import java.time.Duration;
 
 public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<TraitorInwolfedGame> {
 
@@ -246,7 +245,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
 
         this.broadcastGameMessage(
                 Component.text(traitorTeam.getDisplayName() + "s ", traitorTeam.getTextColor())
-                        .append(Component.text(" :", ExTextColor.PUBLIC))
+                        .append(Component.text(": ", ExTextColor.PUBLIC))
                         .append(Chat.listToComponent(
                                 traitorTeam.getUsers().stream().map(User::getChatNameComponent)
                                         .toList(),

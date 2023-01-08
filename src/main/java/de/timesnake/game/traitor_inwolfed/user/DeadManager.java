@@ -22,15 +22,14 @@ import de.timesnake.library.basic.util.chat.ExTextColor;
 import de.timesnake.library.entities.entity.bukkit.ExPlayer;
 import de.timesnake.library.entities.wrapper.ExEntityPose;
 import de.timesnake.library.entities.wrapper.ExEnumItemSlot;
-import net.kyori.adventure.text.Component;
-import org.bukkit.Location;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-
 import java.time.Duration;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Location;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 public class DeadManager implements Listener, GameTool, ResetableTool {
 
@@ -114,8 +113,7 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
 
         public void found(TraitorInwolfedUser user, boolean identify) {
             if (!user.isSneaking() && !this.found) {
-                user.showTitle(Component.empty(), Component.text("Sneak to find the body"),
-                        Duration.ofSeconds(2), Duration.ZERO, Duration.ZERO);
+                user.sendActionBarText(Component.text("Sneak to find the body"));
                 return;
             }
 

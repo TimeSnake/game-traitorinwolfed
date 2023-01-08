@@ -7,18 +7,22 @@ package de.timesnake.game.traitor_inwolfed.user;
 import de.timesnake.basic.bukkit.util.Server;
 import de.timesnake.basic.bukkit.util.user.ExItemStack;
 import de.timesnake.basic.bukkit.util.user.User;
-import de.timesnake.basic.bukkit.util.user.event.*;
+import de.timesnake.basic.bukkit.util.user.event.UserAttemptPickupItemEvent;
+import de.timesnake.basic.bukkit.util.user.event.UserDamageByUserEvent;
+import de.timesnake.basic.bukkit.util.user.event.UserDeathEvent;
+import de.timesnake.basic.bukkit.util.user.event.UserInventoryInteractEvent;
+import de.timesnake.basic.bukkit.util.user.event.UserInventoryInteractListener;
+import de.timesnake.basic.bukkit.util.user.event.UserRespawnEvent;
 import de.timesnake.game.traitor_inwolfed.main.GameTraitorInwolfed;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedServer;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedTeam;
 import de.timesnake.library.basic.util.Status;
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import java.util.Optional;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-
-import java.util.Optional;
 
 public class UserManager implements Listener, UserInventoryInteractListener {
 
@@ -57,8 +61,7 @@ public class UserManager implements Listener, UserInventoryInteractListener {
         Optional<TraitorInwolfedUser> other = user.getLocation().getNearbyPlayers(100).stream()
                 .map(p -> ((TraitorInwolfedUser) Server.getUser(p)))
                 .filter(u -> u.getStatus().equals(Status.User.IN_GAME)
-                        && !u.getTeam().equals(TraitorInwolfedServer.getGame().getTraitorTeam())
-                        && user.getWorld().equals(u.getWorld()))
+                        && !user.equals(u))
                 .min((u1, u2) -> (int) (u1.getLocation().distanceSquared(user.getLocation())
                         - u2.getLocation().distanceSquared(user.getLocation())));
 

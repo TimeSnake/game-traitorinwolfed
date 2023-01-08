@@ -9,6 +9,7 @@ import de.timesnake.basic.loungebridge.util.user.GameUser;
 import de.timesnake.game.traitor_inwolfed.main.GameTraitorInwolfed;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedServer;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedTeam;
+import java.time.Duration;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.boss.BarColor;
@@ -16,8 +17,6 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
-
-import java.time.Duration;
 
 public class TraitorInwolfedUser extends GameUser {
 
@@ -76,6 +75,7 @@ public class TraitorInwolfedUser extends GameUser {
 
     public void runKillDelay() {
         this.killDelay = TraitorInwolfedServer.KILL_DELAY;
+        this.setWalkSpeed(0.17f);
         this.addBossBar(this.killDelayBossBar);
 
         this.killDelayTask = Server.runTaskTimerSynchrony(() -> {
@@ -86,6 +86,7 @@ public class TraitorInwolfedUser extends GameUser {
                 this.removeBossBar(this.killDelayBossBar);
                 this.showTitle(Component.empty(), Component.text("§cRecharged"),
                         Duration.ofSeconds(1));
+                this.setWalkSpeed(0.2f);
                 return;
             }
 
