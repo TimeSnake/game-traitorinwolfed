@@ -60,8 +60,7 @@ public class UserManager implements Listener, UserInventoryInteractListener {
 
         Optional<TraitorInwolfedUser> other = user.getLocation().getNearbyPlayers(100).stream()
                 .map(p -> ((TraitorInwolfedUser) Server.getUser(p)))
-                .filter(u -> u.getStatus().equals(Status.User.IN_GAME)
-                        && !user.equals(u))
+                .filter(u -> u.getStatus().equals(Status.User.IN_GAME) && !user.equals(u))
                 .min((u1, u2) -> (int) (u1.getLocation().distanceSquared(user.getLocation())
                         - u2.getLocation().distanceSquared(user.getLocation())));
 
@@ -71,6 +70,8 @@ public class UserManager implements Listener, UserInventoryInteractListener {
                     .append(Component.text(
                             ((int) user.getLocation().distance(other.get().getLocation())),
                             ExTextColor.VALUE)));
+        } else {
+            user.sendActionBarText(Component.text("No players nearby", ExTextColor.WARNING));
         }
 
     }
