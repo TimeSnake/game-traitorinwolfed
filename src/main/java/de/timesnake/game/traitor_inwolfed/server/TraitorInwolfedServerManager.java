@@ -327,6 +327,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
         return userManager;
     }
 
+    @Override
     public Sideboard getGameSideboard() {
         return gameSideboard;
     }
