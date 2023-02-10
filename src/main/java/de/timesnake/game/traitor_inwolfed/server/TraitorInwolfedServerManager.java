@@ -310,6 +310,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
     }
 
     public void updateSideboardTime() {
+        System.out.println(this.timerTool.getTime());
         this.gameSideboard.setScore(5, Chat.getTimeString(this.timerTool.getTime()));
         this.spectatorSideboard.setScore(3, Chat.getTimeString(this.timerTool.getTime()));
     }
