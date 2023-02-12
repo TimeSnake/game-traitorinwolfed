@@ -17,7 +17,7 @@ import de.timesnake.game.traitor_inwolfed.main.GameTraitorInwolfed;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedServer;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedTeam;
 import de.timesnake.library.basic.util.Status;
-import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.chat.ExTextColor;
 import java.util.Optional;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;

@@ -18,7 +18,7 @@ import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedServer;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedTeam;
 import de.timesnake.library.basic.util.Status;
 import de.timesnake.library.basic.util.Tuple;
-import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.chat.ExTextColor;
 import de.timesnake.library.entities.entity.bukkit.ExPlayer;
 import de.timesnake.library.entities.wrapper.ExEntityPose;
 import de.timesnake.library.entities.wrapper.ExEnumItemSlot;
