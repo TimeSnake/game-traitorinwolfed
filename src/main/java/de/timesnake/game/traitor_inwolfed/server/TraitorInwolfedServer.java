@@ -5,7 +5,6 @@
 package de.timesnake.game.traitor_inwolfed.server;
 
 import de.timesnake.basic.bukkit.util.user.inventory.ExItemStack;
-import de.timesnake.basic.bukkit.util.user.scoreboard.Sideboard;
 import de.timesnake.basic.loungebridge.util.server.LoungeBridgeServer;
 import java.util.List;
 import org.bukkit.Material;
@@ -39,10 +38,6 @@ public class TraitorInwolfedServer extends LoungeBridgeServer {
 
     public static boolean checkGameEnd() {
         return server.checkGameEnd();
-    }
-
-    public static Sideboard getGameSideboard() {
-        return server.getGameSideboard();
     }
 
     private static final TraitorInwolfedServerManager server = TraitorInwolfedServerManager.getInstance();
