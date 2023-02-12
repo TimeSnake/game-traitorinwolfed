@@ -24,7 +24,7 @@ import de.timesnake.game.traitor_inwolfed.main.Plugin;
 import de.timesnake.game.traitor_inwolfed.user.DeadManager;
 import de.timesnake.game.traitor_inwolfed.user.TraitorInwolfedUser;
 import de.timesnake.game.traitor_inwolfed.user.UserManager;
-import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.chat.ExTextColor;
 import de.timesnake.library.extension.util.chat.Chat;
 import java.time.Duration;
 import net.kyori.adventure.text.Component;
@@ -167,7 +167,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
     @Override
     @Deprecated
     public void broadcastGameMessage(String s) {
-        super.broadcastMessage(Plugin.TRAITOR_INWOLFED, s);
+        super.broadcastTDMessage(Plugin.TRAITOR_INWOLFED, s);
     }
 
     @Override
