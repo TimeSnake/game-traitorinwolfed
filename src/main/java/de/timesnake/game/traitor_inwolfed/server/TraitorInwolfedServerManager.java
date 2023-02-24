@@ -7,8 +7,10 @@ package de.timesnake.game.traitor_inwolfed.server;
 import de.timesnake.basic.bukkit.util.Server;
 import de.timesnake.basic.bukkit.util.chat.ChatColor;
 import de.timesnake.basic.bukkit.util.user.User;
+import de.timesnake.basic.bukkit.util.user.scoreboard.ExSideboard;
+import de.timesnake.basic.bukkit.util.user.scoreboard.ExSideboard.LineId;
+import de.timesnake.basic.bukkit.util.user.scoreboard.ExSideboardBuilder;
 import de.timesnake.basic.bukkit.util.user.scoreboard.NameTagVisibility;
-import de.timesnake.basic.bukkit.util.user.scoreboard.Sideboard;
 import de.timesnake.basic.bukkit.util.user.scoreboard.TablistableGroup;
 import de.timesnake.basic.bukkit.util.user.scoreboard.TablistablePlayer;
 import de.timesnake.basic.bukkit.util.world.ExLocation;
@@ -38,19 +40,19 @@ import org.bukkit.potion.PotionEffectType;
 
 public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<TraitorInwolfedGame> {
 
+    public static final LineId<String> TEAM_LINE = LineId.of("team", "", true, Object::toString);
+
     public static final float WIN_COINS = 10;
 
     public static TraitorInwolfedServerManager getInstance() {
         return (TraitorInwolfedServerManager) LoungeBridgeServerManager.getInstance();
     }
 
-    private boolean gameRunning;
-
     private DeadManager deadManager;
     private UserManager userManager;
 
-    private Sideboard gameSideboard;
-    private Sideboard spectatorSideboard;
+    private ExSideboard gameSideboard;
+    private ExSideboard spectatorSideboard;
 
     private TimerTool timerTool;
     private AntiCampTeleporter antiCampTeleporter;
@@ -65,30 +67,27 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
 
         this.setTeamMateDamage(true);
 
-        this.gameSideboard = Server.getScoreboardManager().registerSideboard("traitor_inwolfed",
-                ChatColor.GOLD + "" + ChatColor.BOLD + this.getGame().getDisplayName());
-
-        this.gameSideboard.setScore(6, TraitorInwolfedServer.SIDEBOARD_TIME_TEXT);
-        // time
-        this.gameSideboard.setScore(4, "§f----------------");
-        // team
-        this.gameSideboard.setScore(2, "§r§f----------------");
-        this.gameSideboard.setScore(1, TraitorInwolfedServer.SIDEBOARD_MAP_TEXT);
-        // map
+        this.gameSideboard = Server.getScoreboardManager()
+                .registerExSideboard(new ExSideboardBuilder()
+                        .name("ti")
+                        .title("§6§l" + this.getGame().getDisplayName())
+                        .lineSpacer()
+                        .addLine(LineId.TIME)
+                        .addLine(TEAM_LINE)
+                        .addLine(LineId.MAP));
 
         this.spectatorSideboard = Server.getScoreboardManager()
-                .registerSideboard("traitor_inwolfed",
-                        ChatColor.GOLD + "" + ChatColor.BOLD + this.getGame().getDisplayName());
-        this.spectatorSideboard.setScore(4, TraitorInwolfedServer.SIDEBOARD_TIME_TEXT);
-        // time
-        this.spectatorSideboard.setScore(2, "§r§f----------------");
-        this.spectatorSideboard.setScore(1, TraitorInwolfedServer.SIDEBOARD_MAP_TEXT);
-        // map
+                .registerExSideboard(new ExSideboardBuilder()
+                        .name("ti_spec")
+                        .title("§6§l" + this.getGame().getDisplayName())
+                        .lineSpacer()
+                        .addLine(LineId.TIME)
+                        .addLine(LineId.MAP));
 
         this.timerTool = new TimerTool() {
             @Override
             public void onTimerUpdate() {
-                TraitorInwolfedServerManager.this.updateSideboardTime();
+                updateSideboardTime();
                 if (this.getTime() % 60 == 0 && this.getTime() > 0) {
                     Server.broadcastNote(Instrument.PLING, Note.natural(1, Note.Tone.A));
                     Server.broadcastTitle(Component.empty(),
@@ -160,22 +159,6 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
     }
 
     @Override
-    public boolean isGameRunning() {
-        return this.gameRunning;
-    }
-
-    @Override
-    @Deprecated
-    public void broadcastGameMessage(String s) {
-        super.broadcastTDMessage(Plugin.TRAITOR_INWOLFED, s);
-    }
-
-    @Override
-    public void broadcastGameMessage(Component message) {
-        super.broadcastMessage(Plugin.TRAITOR_INWOLFED, message);
-    }
-
-    @Override
     public void onMapLoad() {
         super.onMapLoad();
         this.updateSideboardMap();
@@ -184,8 +167,6 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
 
     @Override
     public void onGameStart() {
-        this.gameRunning = true;
-
         String traitorNames = Chat.listToString(
                 TraitorInwolfedServer.getGame().getTraitorTeam().getInGameUsers()
                         .stream().map(User::getName).toList());
@@ -215,10 +196,6 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
 
     @Override
     public void onGameStop() {
-        if (!this.isGameRunning()) {
-            return;
-        }
-        this.gameRunning = false;
         this.broadcastGameMessage(Chat.getLongLineSeparator());
 
         Team traitorTeam = this.getGame().getTraitorTeam();
@@ -266,9 +243,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
                 user.addCoins(WIN_COINS, true);
             }
         } else {
-            Server.broadcastTitle(Component.text("Game has ended", ExTextColor.PUBLIC),
-                    Component.empty(),
-                    Duration.ofSeconds(5));
+            Server.broadcastTDTitle("§pGame has ended", "", Duration.ofSeconds(5));
             this.broadcastGameMessage(Component.text(" Game has ended", ExTextColor.PUBLIC));
         }
 
@@ -304,19 +279,19 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
         return (TraitorInwolfedMap) super.getMap();
     }
 
+
     public void updateSideboardMap() {
-        this.gameSideboard.setScore(0, this.getMap().getDisplayName());
-        this.spectatorSideboard.setScore(0, this.getMap().getDisplayName());
+        this.gameSideboard.updateScore(LineId.MAP, this.getMap().getDisplayName());
+        this.spectatorSideboard.updateScore(LineId.MAP, this.getMap().getDisplayName());
     }
 
     public void updateSideboardTime() {
-        System.out.println(this.timerTool.getTime());
-        this.gameSideboard.setScore(5, Chat.getTimeString(this.timerTool.getTime()));
-        this.spectatorSideboard.setScore(3, Chat.getTimeString(this.timerTool.getTime()));
+        this.gameSideboard.updateScore(LineId.TIME, this.timerTool.getTime());
+        this.spectatorSideboard.updateScore(LineId.TIME, this.timerTool.getTime());
     }
 
     @Override
-    public Sideboard getSpectatorSideboard() {
+    public ExSideboard getSpectatorSideboard() {
         return this.spectatorSideboard;
     }
 
@@ -329,7 +304,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
     }
 
     @Override
-    public Sideboard getGameSideboard() {
+    public ExSideboard getGameSideboard() {
         return gameSideboard;
     }
 }

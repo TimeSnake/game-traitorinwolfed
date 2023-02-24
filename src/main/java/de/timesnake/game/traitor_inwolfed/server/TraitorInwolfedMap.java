@@ -13,9 +13,8 @@ import de.timesnake.basic.loungebridge.util.game.ResetableMap;
 import de.timesnake.basic.loungebridge.util.tool.Timeable;
 import de.timesnake.database.util.game.DbMap;
 import de.timesnake.game.traitor_inwolfed.main.Plugin;
-import org.bukkit.GameRule;
-
 import java.util.List;
+import org.bukkit.GameRule;
 
 public class TraitorInwolfedMap extends Map implements ResetableMap, Timeable {
 
@@ -30,12 +29,16 @@ public class TraitorInwolfedMap extends Map implements ResetableMap, Timeable {
     private static final int TELEPORTER_START_INDEX = 200;
     private static final int TELEPORTER_END_INDEX = 300;
 
-    private final List<ExLocation> teleporterLocations;
+    private List<ExLocation> teleporterLocations;
 
-    private final int time;
+    private int time;
 
     public TraitorInwolfedMap(DbMap map, boolean loadWorld) {
         super(map, loadWorld);
+
+        if (this.world == null) {
+            return;
+        }
 
         int time = DEFAULT_TIME;
 

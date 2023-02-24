@@ -5,14 +5,14 @@
 package de.timesnake.game.traitor_inwolfed.user;
 
 import de.timesnake.basic.bukkit.util.Server;
-import de.timesnake.basic.bukkit.util.user.inventory.ExItemStack;
 import de.timesnake.basic.bukkit.util.user.User;
 import de.timesnake.basic.bukkit.util.user.event.UserAttemptPickupItemEvent;
 import de.timesnake.basic.bukkit.util.user.event.UserDamageByUserEvent;
 import de.timesnake.basic.bukkit.util.user.event.UserDeathEvent;
+import de.timesnake.basic.bukkit.util.user.event.UserRespawnEvent;
+import de.timesnake.basic.bukkit.util.user.inventory.ExItemStack;
 import de.timesnake.basic.bukkit.util.user.inventory.UserInventoryInteractEvent;
 import de.timesnake.basic.bukkit.util.user.inventory.UserInventoryInteractListener;
-import de.timesnake.basic.bukkit.util.user.event.UserRespawnEvent;
 import de.timesnake.game.traitor_inwolfed.main.GameTraitorInwolfed;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedServer;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedTeam;
@@ -23,6 +23,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 public class UserManager implements Listener, UserInventoryInteractListener {
 
@@ -109,8 +110,8 @@ public class UserManager implements Listener, UserInventoryInteractListener {
                     .equals(Material.IRON_SWORD)
                     || e.getUserDamager().getInventory().getItemInMainHand().getType()
                     .equals(Material.GOLDEN_SWORD)
-                    || e.getUserDamager().getInventory().getItemInMainHand().getType()
-                    .equals(Material.BOW)) {
+                    || (e.getUserDamager().getInventory().getItemInMainHand().getType()
+                    .equals(Material.BOW) && e.getDamageCause().equals(DamageCause.PROJECTILE))) {
                 e.setDamage(40);
             } else {
                 e.setDamage(0);

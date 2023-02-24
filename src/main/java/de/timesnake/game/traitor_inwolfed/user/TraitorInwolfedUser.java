@@ -8,6 +8,7 @@ import de.timesnake.basic.bukkit.util.Server;
 import de.timesnake.basic.loungebridge.util.user.GameUser;
 import de.timesnake.game.traitor_inwolfed.main.GameTraitorInwolfed;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedServer;
+import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedServerManager;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedTeam;
 import java.time.Duration;
 import net.kyori.adventure.text.Component;
@@ -41,8 +42,8 @@ public class TraitorInwolfedUser extends GameUser {
         team.getItems().forEach(this::setItem);
         this.setPvpMode(true);
 
-        this.setSideboard(TraitorInwolfedServer.getGameSideboard());
-        this.setSideboardScore(3,
+        TraitorInwolfedServer.getGameSideboard().updateScore4User(this,
+                TraitorInwolfedServerManager.TEAM_LINE,
                 team.getChatColor() + "" + ChatColor.BOLD + team.getDisplayName());
     }
 
@@ -80,6 +81,9 @@ public class TraitorInwolfedUser extends GameUser {
 
         this.killDelayTask = Server.runTaskTimerSynchrony(() -> {
             this.killDelayBossBar.setTitle("Kill Delay: §7" + this.killDelay);
+            this.killDelayBossBar.setProgress(
+                    ((double) TraitorInwolfedServer.KILL_DELAY - this.killDelay)
+                            / TraitorInwolfedServer.KILL_DELAY);
 
             if (this.killDelay <= 0) {
                 this.killDelayTask.cancel();
