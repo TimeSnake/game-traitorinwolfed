@@ -65,10 +65,6 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
             return;
         }
 
-        if (e.getTo().getBlock().equals(e.getFrom().getBlock())) {
-            return;
-        }
-
         for (DeadBody deadBody : this.deadBodies) {
             if (deadBody.getLocation().getWorld().equals(location.getWorld())
                     && deadBody.getLocation().distanceSquared(location) <= RADIUS * RADIUS) {

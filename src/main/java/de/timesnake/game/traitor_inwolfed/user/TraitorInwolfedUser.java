@@ -66,7 +66,7 @@ public class TraitorInwolfedUser extends GameUser {
     }
 
     @Override
-    public void broadcastKillstreak() {
+    public void broadcastKillStreak() {
 
     }
 

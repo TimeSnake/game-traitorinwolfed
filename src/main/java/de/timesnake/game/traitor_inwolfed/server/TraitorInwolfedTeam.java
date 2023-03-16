@@ -8,13 +8,12 @@ import de.timesnake.basic.bukkit.util.exception.UnsupportedGroupRankException;
 import de.timesnake.basic.bukkit.util.user.inventory.ExItemStack;
 import de.timesnake.basic.game.util.game.Team;
 import de.timesnake.database.util.game.DbTeam;
+import java.util.ArrayList;
+import java.util.List;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlot;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TraitorInwolfedTeam extends Team {
 
@@ -38,7 +37,7 @@ public class TraitorInwolfedTeam extends Team {
                     .unbreakable().setSlot(0).setDropable(false).immutable(),
             new ExItemStack(Material.BOW).setSlot(1).addExEnchantment(Enchantment.ARROW_DAMAGE, 10)
                     .setDropable(false).immutable(),
-            ARROW.cloneWithId().asQuantity(4).setSlot(7).immutable(),
+            ARROW.cloneWithId().asQuantity(3).setSlot(6).immutable(),
             TraitorInwolfedServer.PLAYER_TRACKER,
             TraitorInwolfedServer.FOOD,
             DETECTIVE_HELMET
