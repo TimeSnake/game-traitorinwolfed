@@ -12,9 +12,6 @@ import org.bukkit.Material;
 
 public class TraitorInwolfedServer extends LoungeBridgeServer {
 
-    public static final String SIDEBOARD_TIME_TEXT = "§9§lTime";
-    public static final String SIDEBOARD_MAP_TEXT = "§c§lMap";
-
     public static final ExItemStack GOLD = new ExItemStack(Material.SUNFLOWER).setDisplayName(
             "§6Gold Coin").immutable();
 
