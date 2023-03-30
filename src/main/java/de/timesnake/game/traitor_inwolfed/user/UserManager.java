@@ -24,6 +24,7 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.player.PlayerPickupArrowEvent;
 
 public class UserManager implements Listener, UserInventoryInteractListener {
 
@@ -74,7 +75,6 @@ public class UserManager implements Listener, UserInventoryInteractListener {
         } else {
             user.sendActionBarText(Component.text("No players nearby", ExTextColor.WARNING));
         }
-
     }
 
     @EventHandler
@@ -99,20 +99,30 @@ public class UserManager implements Listener, UserInventoryInteractListener {
     }
 
     @EventHandler
+    public void onPlayerPickUpArrow(PlayerPickupArrowEvent e) {
+        e.getArrow().remove();
+        e.setCancelled(true);
+    }
+
+    @EventHandler
     public void onUserDamageByUser(UserDamageByUserEvent e) {
         TraitorInwolfedUser damager = ((TraitorInwolfedUser) e.getUserDamager());
+        TraitorInwolfedUser user = ((TraitorInwolfedUser) e.getUser());
 
         if (damager.isKillDelayRunning()) {
             e.setDamage(0);
             e.setCancelDamage(true);
         } else {
-            if (e.getUserDamager().getInventory().getItemInMainHand().getType()
-                    .equals(Material.IRON_SWORD)
-                    || e.getUserDamager().getInventory().getItemInMainHand().getType()
-                    .equals(Material.GOLDEN_SWORD)
-                    || (e.getUserDamager().getInventory().getItemInMainHand().getType()
-                    .equals(Material.BOW) && e.getDamageCause().equals(DamageCause.PROJECTILE))) {
+            Material itemType = e.getUserDamager().getInventory().getItemInMainHand().getType();
+            if (itemType.equals(Material.IRON_SWORD)
+                    || itemType.equals(Material.GOLDEN_SWORD)
+                    || (itemType.equals(Material.BOW)
+                    && e.getDamageCause().equals(DamageCause.PROJECTILE))) {
                 e.setDamage(40);
+                TraitorInwolfedTeam traitorTeam = TraitorInwolfedServer.getGame().getTraitorTeam();
+                if (!damager.getTeam().equals(traitorTeam) && !user.getTeam().equals(traitorTeam)) {
+                    Server.runTaskLaterSynchrony(damager::kill, 1, GameTraitorInwolfed.getPlugin());
+                }
             } else {
                 e.setDamage(0);
             }
