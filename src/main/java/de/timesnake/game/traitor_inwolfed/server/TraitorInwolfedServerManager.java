@@ -17,7 +17,8 @@ import de.timesnake.basic.bukkit.util.world.ExLocation;
 import de.timesnake.basic.game.util.game.Team;
 import de.timesnake.basic.loungebridge.util.server.LoungeBridgeServerManager;
 import de.timesnake.basic.loungebridge.util.server.TablistManager;
-import de.timesnake.basic.loungebridge.util.tool.TimerTool;
+import de.timesnake.basic.loungebridge.util.tool.advanced.MapTimerTool;
+import de.timesnake.basic.loungebridge.util.tool.advanced.TimerTool;
 import de.timesnake.basic.loungebridge.util.user.GameUser;
 import de.timesnake.basic.loungebridge.util.user.TablistTeam;
 import de.timesnake.database.util.game.DbGame;
@@ -84,7 +85,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
                         .addLine(LineId.TIME)
                         .addLine(LineId.MAP));
 
-        this.timerTool = new TimerTool() {
+        this.timerTool = new MapTimerTool() {
             @Override
             public void onTimerUpdate() {
                 updateSideboardTime();
@@ -123,7 +124,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
     }
 
     @Override
-    public TablistManager loadTablistManager() {
+    public TablistManager initTablistManager() {
         return new TablistManager() {
             @Override
             protected TablistTeam loadGameTeam() {

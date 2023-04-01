@@ -31,7 +31,9 @@ public class TraitorInwolfedUser extends GameUser {
     }
 
     @Override
-    public void joinGame() {
+    public void onGameJoin() {
+        super.onGameJoin();
+
         this.clearInventory();
         this.removePotionEffects();
 
