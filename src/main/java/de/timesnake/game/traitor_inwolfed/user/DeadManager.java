@@ -12,7 +12,7 @@ import de.timesnake.basic.bukkit.util.world.ExLocation;
 import de.timesnake.basic.bukkit.util.world.entity.PacketPlayer;
 import de.timesnake.basic.game.util.game.Team;
 import de.timesnake.basic.loungebridge.util.tool.GameTool;
-import de.timesnake.basic.loungebridge.util.tool.ResetableTool;
+import de.timesnake.basic.loungebridge.util.tool.scheduler.ResetableTool;
 import de.timesnake.game.traitor_inwolfed.main.GameTraitorInwolfed;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedServer;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedTeam;
