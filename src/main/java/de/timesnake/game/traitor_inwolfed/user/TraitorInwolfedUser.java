@@ -22,7 +22,7 @@ import org.bukkit.scheduler.BukkitTask;
 public class TraitorInwolfedUser extends GameUser {
 
     private BukkitTask killDelayTask;
-    private int killDelay = TraitorInwolfedServer.KILL_DELAY;
+    private int killDelay = TraitorInwolfedServer.KILL_DELAY_SEC;
     private final BossBar killDelayBossBar = Server.createBossBar("Kill Delay: §7" + this.killDelay,
             BarColor.WHITE, BarStyle.SOLID);
 
@@ -77,15 +77,15 @@ public class TraitorInwolfedUser extends GameUser {
     }
 
     public void runKillDelay() {
-        this.killDelay = TraitorInwolfedServer.KILL_DELAY;
+        this.killDelay = TraitorInwolfedServer.KILL_DELAY_SEC;
         this.setWalkSpeed(0.17f);
         this.addBossBar(this.killDelayBossBar);
 
         this.killDelayTask = Server.runTaskTimerSynchrony(() -> {
             this.killDelayBossBar.setTitle("Kill Delay: §7" + this.killDelay);
             this.killDelayBossBar.setProgress(
-                    ((double) TraitorInwolfedServer.KILL_DELAY - this.killDelay)
-                            / TraitorInwolfedServer.KILL_DELAY);
+                    ((double) TraitorInwolfedServer.KILL_DELAY_SEC - this.killDelay)
+                            / TraitorInwolfedServer.KILL_DELAY_SEC);
 
             if (this.killDelay <= 0) {
                 this.killDelayTask.cancel();
