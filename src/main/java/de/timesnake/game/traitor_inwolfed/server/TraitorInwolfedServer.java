@@ -12,6 +12,8 @@ import org.bukkit.Material;
 
 public class TraitorInwolfedServer extends LoungeBridgeServer {
 
+    public static final float WIN_COINS = 10;
+
     public static final ExItemStack GOLD = new ExItemStack(Material.SUNFLOWER).setDisplayName(
             "§6Gold Coin").immutable();
 
@@ -24,7 +26,7 @@ public class TraitorInwolfedServer extends LoungeBridgeServer {
             .setDropable(false).immutable();
     public static final ExItemStack FOOD = new ExItemStack(Material.COOKED_BEEF, 32).setSlot(8)
             .immutable();
-    public static final int KILL_DELAY = 25; // in seconds
+    public static final int KILL_DELAY_SEC = 25;
 
     public static TraitorInwolfedGame getGame() {
         return server.getGame();

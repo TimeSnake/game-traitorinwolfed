@@ -43,8 +43,6 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
 
     public static final LineId<String> TEAM_LINE = LineId.of("team", "", true, Object::toString);
 
-    public static final float WIN_COINS = 10;
-
     public static TraitorInwolfedServerManager getInstance() {
         return (TraitorInwolfedServerManager) LoungeBridgeServerManager.getInstance();
     }
@@ -208,7 +206,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
             if (traitorTeam.getInGameUsers().size() == 0) {
                 this.broadcastWinner(innocentTeam);
                 for (User user : detectiveTeam.getUsers()) {
-                    user.addCoins(WIN_COINS, true);
+                    user.addCoins(TraitorInwolfedServer.WIN_COINS, true);
                 }
             } else {
                 this.broadcastWinner(null);
@@ -241,7 +239,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
                     Component.text(team.getDisplayName() + "s", team.getTextColor())
                             .append(Component.text(" wins", ExTextColor.PUBLIC)));
             for (User user : team.getUsers()) {
-                user.addCoins(WIN_COINS, true);
+                user.addCoins(TraitorInwolfedServer.WIN_COINS, true);
             }
         } else {
             Server.broadcastTDTitle("§pGame has ended", "", Duration.ofSeconds(5));
