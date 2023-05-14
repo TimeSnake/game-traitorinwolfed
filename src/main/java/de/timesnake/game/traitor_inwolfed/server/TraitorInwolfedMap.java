@@ -65,7 +65,7 @@ public class TraitorInwolfedMap extends Map implements ResetableMap, Timeable {
         this.getWorld().restrict(Restriction.BLOCK_PLACE, true);
         this.getWorld().restrict(Restriction.CAKE_EAT, false);
         this.getWorld().restrict(Restriction.ENTITY_EXPLODE, true);
-        this.getWorld().restrict(Restriction.FIRE_SPREAD, true);
+        this.getWorld().restrict(Restriction.FIRE_SPREAD_SPEED, 0f);
         this.getWorld().restrict(Restriction.FLUID_PLACE, true);
         this.getWorld().restrict(Restriction.FLUID_COLLECT, true);
         this.getWorld().restrict(Restriction.ENTITY_BLOCK_BREAK, true);
