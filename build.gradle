@@ -1,5 +1,11 @@
+group = project.group
+version = '1.1-SNAPSHOT'
+archivesBaseName = 'game-traitorinwolfed'
+var projectId = 13
+
 repositories {
   mavenLocal()
+  mavenCentral()
   maven {
     url = uri 'https://papermc.io/repo/repository/maven-public/'
   }
@@ -32,10 +38,6 @@ dependencies {
   compileOnly project.spigot
 }
 
-group = project.group
-version = '1.1-SNAPSHOT'
-archivesBaseName = 'game-traitorinwolfed'
-
 task deleteOldPluginJar(type: Delete) {
   delete fileTree(dir: "${project.plugins_dir}", include: "**/${archivesBaseName}-*.jar")
   onlyIf {
@@ -53,3 +55,15 @@ task copyJarToPlugins(type: Copy) {
 
 copyJarToPlugins.dependsOn(deleteOldPluginJar)
 jar.finalizedBy(copyJarToPlugins)
+
+publishing {
+  repositories {
+    maven {
+      url getDeployUrl(projectId)
+      credentials {
+        username = deploy_token_name
+        password = deploy_token_key
+      }
+    }
+  }
+}
