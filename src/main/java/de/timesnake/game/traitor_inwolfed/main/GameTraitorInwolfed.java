@@ -10,21 +10,21 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class GameTraitorInwolfed extends JavaPlugin {
 
-    public static GameTraitorInwolfed getPlugin() {
-        return plugin;
-    }
+  public static GameTraitorInwolfed getPlugin() {
+    return plugin;
+  }
 
-    private static GameTraitorInwolfed plugin;
+  private static GameTraitorInwolfed plugin;
 
-    @Override
-    public void onLoad() {
-        ServerManager.setInstance(new TraitorInwolfedServerManager());
-    }
+  @Override
+  public void onLoad() {
+    ServerManager.setInstance(new TraitorInwolfedServerManager());
+  }
 
-    @Override
-    public void onEnable() {
-        plugin = this;
+  @Override
+  public void onEnable() {
+    plugin = this;
 
-        TraitorInwolfedServerManager.getInstance().onTraitorInwolfedEnable();
-    }
+    TraitorInwolfedServerManager.getInstance().onTraitorInwolfedEnable();
+  }
 }
