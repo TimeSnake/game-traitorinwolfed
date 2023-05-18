@@ -10,16 +10,16 @@ import de.timesnake.basic.loungebridge.util.tool.advanced.AntiCampTool;
 
 public class AntiCampTeleporter extends AntiCampTool {
 
-    public AntiCampTeleporter() {
-        super(40, 4);
-    }
+  public AntiCampTeleporter() {
+    super(40, 4);
+  }
 
-    @Override
-    public void teleport(User user) {
-        ExLocation location = TraitorInwolfedServer.getMap().getRandomTeleport();
-        if (location == null) {
-            return;
-        }
-        user.teleport(location);
+  @Override
+  public void teleport(User user) {
+    ExLocation location = TraitorInwolfedServer.getMap().getRandomTeleport();
+    if (location == null) {
+      return;
     }
+    user.teleport(location);
+  }
 }

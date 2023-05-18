@@ -14,38 +14,38 @@ import de.timesnake.database.util.game.DbTmpGame;
 
 public class TraitorInwolfedGame extends TmpGame {
 
-    private static final String INNOCENT_TEAM_NAME = "innocent";
-    private static final String DETECTIVE_TEAM_NAME = "detective";
-    private static final String TRAITOR_TEAM_NAME = "traitor";
+  private static final String INNOCENT_TEAM_NAME = "innocent";
+  private static final String DETECTIVE_TEAM_NAME = "detective";
+  private static final String TRAITOR_TEAM_NAME = "traitor";
 
-    public TraitorInwolfedGame(DbTmpGame database, boolean loadWorlds) {
-        super(database, loadWorlds);
-    }
+  public TraitorInwolfedGame(DbTmpGame database, boolean loadWorlds) {
+    super(database, loadWorlds);
+  }
 
-    @Override
-    public Map loadMap(DbMap dbMap, boolean loadWorld) {
-        return new TraitorInwolfedMap(dbMap, true);
-    }
+  @Override
+  public Map loadMap(DbMap dbMap, boolean loadWorld) {
+    return new TraitorInwolfedMap(dbMap, true);
+  }
 
-    @Override
-    public Team loadTeam(DbTeam team) throws UnsupportedGroupRankException {
-        return new TraitorInwolfedTeam(team);
-    }
+  @Override
+  public Team loadTeam(DbTeam team) throws UnsupportedGroupRankException {
+    return new TraitorInwolfedTeam(team);
+  }
 
-    public TraitorInwolfedTeam getInnocentTeam() {
-        return this.getTeam(INNOCENT_TEAM_NAME);
-    }
+  public TraitorInwolfedTeam getInnocentTeam() {
+    return this.getTeam(INNOCENT_TEAM_NAME);
+  }
 
-    public TraitorInwolfedTeam getDetectiveTeam() {
-        return this.getTeam(DETECTIVE_TEAM_NAME);
-    }
+  public TraitorInwolfedTeam getDetectiveTeam() {
+    return this.getTeam(DETECTIVE_TEAM_NAME);
+  }
 
-    public TraitorInwolfedTeam getTraitorTeam() {
-        return this.getTeam(TRAITOR_TEAM_NAME);
-    }
+  public TraitorInwolfedTeam getTraitorTeam() {
+    return this.getTeam(TRAITOR_TEAM_NAME);
+  }
 
-    @Override
-    public TraitorInwolfedTeam getTeam(String team) {
-        return (TraitorInwolfedTeam) super.getTeam(team);
-    }
+  @Override
+  public TraitorInwolfedTeam getTeam(String team) {
+    return (TraitorInwolfedTeam) super.getTeam(team);
+  }
 }
