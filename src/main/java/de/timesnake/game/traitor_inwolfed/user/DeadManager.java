@@ -19,17 +19,19 @@ import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedTeam;
 import de.timesnake.library.basic.util.Status;
 import de.timesnake.library.basic.util.Tuple;
 import de.timesnake.library.chat.ExTextColor;
-import de.timesnake.library.entities.entity.bukkit.ExPlayer;
-import de.timesnake.library.entities.wrapper.ExEntityPose;
-import de.timesnake.library.entities.wrapper.ExEnumItemSlot;
+import de.timesnake.library.entities.entity.PlayerBuilder;
+import net.kyori.adventure.text.Component;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.player.Player;
+import org.bukkit.Location;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+
 import java.time.Duration;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import net.kyori.adventure.text.Component;
-import org.bukkit.Location;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 
 public class DeadManager implements Listener, GameTool, ResetableTool {
 
@@ -86,7 +88,7 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
 
     public DeadBody(User user, Team team, ExLocation location) {
       this.name = user.getName();
-      this.textures = user.asExPlayer().getTextureValueSiganture();
+      this.textures = user.asPlayerBuilder().getTextures();
       this.team = team;
       this.location = location;
     }
@@ -174,23 +176,21 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
     }
 
     public void spawn() {
-      ExPlayer deadBody = new ExPlayer(this.location.getExWorld().getBukkitWorld(),
-          "_" + this.name);
+      Player deadBody = PlayerBuilder.ofName(this.name + "_dead", this.textures.getA(), this.textures.getB())
+          .applyOnEntity(e -> {
+            e.setLevel(this.location.getExWorld().getHandle());
+            e.setPos(this.location.getX(), this.location.getY() + 0.2, this.location.getZ());
+            e.setRot(120, 0);
+            e.setNoGravity(true);
+            e.setCustomName(net.minecraft.network.chat.Component.literal(this.name + " (dead)"));
+            e.setCustomNameVisible(true);
+            e.setPose(Pose.SLEEPING);
 
-      deadBody.setTextures(this.textures.getA(), this.textures.getB());
-      deadBody.setPositionRotation(this.location.getX(), this.location.getY() + 0.2,
-          this.location.getZ(), 120, 0);
-      deadBody.setNoGravity(true);
-      deadBody.setPlayerListName("" + this.name + " (dead)");
-      deadBody.setDisplayName("" + this.name + " (dead)");
-      deadBody.setCustomName(this.name + "§7 (dead)");
-      deadBody.setCustomNameVisible(true);
-
-      deadBody.setPose(ExEntityPose.SLEEPING);
-
-      if (this.team.equals(TraitorInwolfedServer.getGame().getDetectiveTeam())) {
-        deadBody.setSlot(ExEnumItemSlot.HEAD, TraitorInwolfedTeam.DETECTIVE_HELMET);
-      }
+            if (this.team.equals(TraitorInwolfedServer.getGame().getDetectiveTeam())) {
+              e.setItemSlot(EquipmentSlot.HEAD, TraitorInwolfedTeam.DETECTIVE_HELMET.getHandle());
+            }
+          })
+          .build();
 
       this.bodyEntity = new PacketPlayer(deadBody, location);
 

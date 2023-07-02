@@ -7,12 +7,8 @@ package de.timesnake.game.traitor_inwolfed.server;
 import de.timesnake.basic.bukkit.util.Server;
 import de.timesnake.basic.bukkit.util.chat.ChatColor;
 import de.timesnake.basic.bukkit.util.user.User;
-import de.timesnake.basic.bukkit.util.user.scoreboard.ExSideboard;
+import de.timesnake.basic.bukkit.util.user.scoreboard.*;
 import de.timesnake.basic.bukkit.util.user.scoreboard.ExSideboard.LineId;
-import de.timesnake.basic.bukkit.util.user.scoreboard.ExSideboardBuilder;
-import de.timesnake.basic.bukkit.util.user.scoreboard.NameTagVisibility;
-import de.timesnake.basic.bukkit.util.user.scoreboard.TablistableGroup;
-import de.timesnake.basic.bukkit.util.user.scoreboard.TablistablePlayer;
 import de.timesnake.basic.bukkit.util.world.ExLocation;
 import de.timesnake.basic.game.util.game.Team;
 import de.timesnake.basic.loungebridge.util.server.LoungeBridgeServerManager;
@@ -29,7 +25,6 @@ import de.timesnake.game.traitor_inwolfed.user.TraitorInwolfedUser;
 import de.timesnake.game.traitor_inwolfed.user.UserManager;
 import de.timesnake.library.chat.ExTextColor;
 import de.timesnake.library.extension.util.chat.Chat;
-import java.time.Duration;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Instrument;
 import org.bukkit.Note;
@@ -38,6 +33,8 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
+
+import java.time.Duration;
 
 public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<TraitorInwolfedGame> {
 
@@ -129,7 +126,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
         return new TablistTeam("0", "game", "", ChatColor.WHITE, ChatColor.WHITE) {
           @Override
           public NameTagVisibility isNameTagVisibleBy(TablistablePlayer player,
-              TablistableGroup otherGroup) {
+                                                      TablistableGroup otherGroup) {
             TraitorInwolfedTeam traitorTeam = TraitorInwolfedServer.getGame()
                 .getTraitorTeam();
             if (traitorTeam.equals(((TraitorInwolfedUser) player).getTeam())
