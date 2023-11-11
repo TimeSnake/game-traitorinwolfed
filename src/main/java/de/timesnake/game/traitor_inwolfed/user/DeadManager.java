@@ -20,7 +20,6 @@ import de.timesnake.library.basic.util.Status;
 import de.timesnake.library.basic.util.Tuple;
 import de.timesnake.library.chat.ExTextColor;
 import de.timesnake.library.entities.entity.PlayerBuilder;
-import de.timesnake.library.packets.core.packet.out.entity.ClientboundSetEntityDataPacketBuilder;
 import net.kyori.adventure.text.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Pose;
@@ -194,7 +193,6 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
           .build();
 
       this.bodyEntity = new PacketPlayer(deadBody, location);
-      this.bodyEntity.setPoseTag(ClientboundSetEntityDataPacketBuilder.Type.SLEEPING, true);
 
       Server.getEntityManager().registerEntity(this.bodyEntity);
     }
