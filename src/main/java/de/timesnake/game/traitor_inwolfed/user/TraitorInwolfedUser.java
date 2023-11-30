@@ -5,19 +5,21 @@
 package de.timesnake.game.traitor_inwolfed.user;
 
 import de.timesnake.basic.bukkit.util.Server;
+import de.timesnake.basic.bukkit.util.world.ExLocation;
 import de.timesnake.basic.loungebridge.util.user.GameUser;
 import de.timesnake.game.traitor_inwolfed.main.GameTraitorInwolfed;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedServer;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedServerManager;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedTeam;
-import java.time.Duration;
 import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.Nullable;
+
+import java.time.Duration;
 
 public class TraitorInwolfedUser extends GameUser {
 
@@ -45,8 +47,7 @@ public class TraitorInwolfedUser extends GameUser {
     this.setPvpMode(true);
 
     TraitorInwolfedServer.getGameSideboard().updateScore4User(this,
-        TraitorInwolfedServerManager.TEAM_LINE,
-        team.getChatColor() + "" + ChatColor.BOLD + team.getDisplayName());
+        TraitorInwolfedServerManager.TEAM_LINE, team.getTDColor() + "§l" + team.getDisplayName());
   }
 
   public boolean changeToDetective() {
@@ -63,6 +64,13 @@ public class TraitorInwolfedUser extends GameUser {
   }
 
   @Override
+  public void onGameStart() {
+    super.onGameStart();
+
+    this.runKillDelay();
+  }
+
+  @Override
   public TraitorInwolfedTeam getTeam() {
     return (TraitorInwolfedTeam) super.getTeam();
   }
@@ -70,6 +78,20 @@ public class TraitorInwolfedUser extends GameUser {
   @Override
   public void broadcastKillStreak() {
 
+  }
+
+  @Override
+  public void addKill() {
+    super.addKill();
+
+    this.runKillDelay();
+  }
+
+  @Override
+  public @Nullable ExLocation onGameRespawn() {
+    this.joinSpectator();
+    TraitorInwolfedServer.checkGameEnd();
+    return TraitorInwolfedServer.getMap().getSpectatorLocation();
   }
 
   public boolean isKillDelayRunning() {

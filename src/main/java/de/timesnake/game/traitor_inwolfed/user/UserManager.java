@@ -5,11 +5,9 @@
 package de.timesnake.game.traitor_inwolfed.user;
 
 import de.timesnake.basic.bukkit.util.Server;
-import de.timesnake.basic.bukkit.util.user.User;
 import de.timesnake.basic.bukkit.util.user.event.UserAttemptPickupItemEvent;
 import de.timesnake.basic.bukkit.util.user.event.UserDamageByUserEvent;
 import de.timesnake.basic.bukkit.util.user.event.UserDeathEvent;
-import de.timesnake.basic.bukkit.util.user.event.UserRespawnEvent;
 import de.timesnake.basic.bukkit.util.user.inventory.ExItemStack;
 import de.timesnake.basic.bukkit.util.user.inventory.UserInventoryInteractEvent;
 import de.timesnake.basic.bukkit.util.user.inventory.UserInventoryInteractListener;
@@ -18,13 +16,14 @@ import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedServer;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedTeam;
 import de.timesnake.library.basic.util.Status;
 import de.timesnake.library.chat.ExTextColor;
-import java.util.Optional;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerPickupArrowEvent;
+
+import java.util.Optional;
 
 public class UserManager implements Listener, UserInventoryInteractListener {
 
@@ -40,20 +39,6 @@ public class UserManager implements Listener, UserInventoryInteractListener {
     e.setBroadcastDeathMessage(false);
     e.getDrops().clear();
     e.setAutoRespawn(true);
-
-    User killer = Server.getUser(e.getUser().getKiller());
-
-    if (killer != null) {
-      ((TraitorInwolfedUser) killer).runKillDelay();
-    }
-  }
-
-  @EventHandler
-  public void onUserRespawn(UserRespawnEvent e) {
-    TraitorInwolfedUser user = ((TraitorInwolfedUser) e.getUser());
-    user.joinSpectator();
-    e.setRespawnLocation(TraitorInwolfedServer.getMap().getSpectatorLocation());
-    TraitorInwolfedServer.checkGameEnd();
   }
 
   @Override
