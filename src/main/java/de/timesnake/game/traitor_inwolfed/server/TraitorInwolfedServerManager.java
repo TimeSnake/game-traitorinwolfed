@@ -11,6 +11,7 @@ import de.timesnake.basic.bukkit.util.user.scoreboard.*;
 import de.timesnake.basic.bukkit.util.user.scoreboard.ExSideboard.LineId;
 import de.timesnake.basic.bukkit.util.world.ExLocation;
 import de.timesnake.basic.game.util.game.Team;
+import de.timesnake.basic.loungebridge.util.server.EndMessage;
 import de.timesnake.basic.loungebridge.util.server.LoungeBridgeServerManager;
 import de.timesnake.basic.loungebridge.util.server.TablistManager;
 import de.timesnake.basic.loungebridge.util.tool.advanced.MapTimerTool;
@@ -24,7 +25,6 @@ import de.timesnake.game.traitor_inwolfed.user.DeadManager;
 import de.timesnake.game.traitor_inwolfed.user.TraitorInwolfedUser;
 import de.timesnake.game.traitor_inwolfed.user.UserManager;
 import de.timesnake.library.chat.ExTextColor;
-import de.timesnake.library.extension.util.chat.Chat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Instrument;
 import org.bukkit.Note;
@@ -139,11 +139,6 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
             }
             return NameTagVisibility.NEVER;
           }
-
-          @Override
-          public NameTagVisibility isNameTagVisible(TablistablePlayer player) {
-            return NameTagVisibility.ALWAYS;
-          }
         };
       }
     };
@@ -163,26 +158,20 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
 
   @Override
   public void onGameStart() {
-    String traitorNames = Chat.listToString(
-        TraitorInwolfedServer.getGame().getTraitorTeam().getInGameUsers()
-            .stream().map(User::getName).toList());
-
-    BossBar traitorBossBar = Server.createBossBar("§cTraitors: " + traitorNames, BarColor.RED,
-        BarStyle.SOLID);
+    BossBar traitorBossBar = Server.createBossBar("§cTraitors: " + String.join(", ",
+            TraitorInwolfedServer.getGame().getTraitorTeam().getInGameUsers().stream().map(User::getName).toList()),
+        BarColor.RED, BarStyle.SOLID);
 
     for (User user : TraitorInwolfedServer.getGame().getTraitorTeam().getInGameUsers()) {
       user.addBossBar(traitorBossBar);
     }
-
-    for (User user : TraitorInwolfedServer.getInGameUsers()) {
-      ((TraitorInwolfedUser) user).runKillDelay();
-    }
   }
 
+  @Override
   public boolean checkGameEnd() {
-    if (this.getGame().getTraitorTeam().getInGameUsers().size() == 0
-        || (this.getGame().getInnocentTeam().getInGameUsers().size() == 0
-        && this.getGame().getDetectiveTeam().getInGameUsers().size() == 0)) {
+    if (this.getGame().getTraitorTeam().getInGameUsers().isEmpty()
+        || (this.getGame().getInnocentTeam().getInGameUsers().isEmpty()
+        && this.getGame().getDetectiveTeam().getInGameUsers().isEmpty())) {
       this.stopGame();
       return true;
     }
@@ -192,67 +181,27 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
 
   @Override
   public void onGameStop() {
-    this.broadcastGameMessage(Chat.getLongLineSeparator());
-
     Team traitorTeam = this.getGame().getTraitorTeam();
     Team innocentTeam = this.getGame().getInnocentTeam();
     Team detectiveTeam = this.getGame().getDetectiveTeam();
 
-    if (this.timerTool.getTime() == 0 || innocentTeam.getInGameUsers().size() > 0
-        || detectiveTeam.getInGameUsers().size() > 0) {
-      if (traitorTeam.getInGameUsers().size() == 0) {
-        this.broadcastWinner(innocentTeam);
+    EndMessage endMessage = new EndMessage();
+
+    if (this.timerTool.getTime() == 0 || !innocentTeam.getInGameUsers().isEmpty() || !detectiveTeam.getInGameUsers().isEmpty()) {
+      if (traitorTeam.getInGameUsers().isEmpty()) {
+        endMessage.winner(innocentTeam);
         for (User user : detectiveTeam.getUsers()) {
           user.addCoins(TraitorInwolfedServer.WIN_COINS, true);
         }
-      } else {
-        this.broadcastWinner(null);
       }
-    } else if (traitorTeam.getInGameUsers().size() > 0) {
-      this.broadcastWinner(traitorTeam);
-    } else {
-      this.broadcastGameMessage(Component.text("Game ended", ExTextColor.PUBLIC));
+    } else if (!traitorTeam.getInGameUsers().isEmpty()) {
+      endMessage.winner(traitorTeam);
     }
 
-    this.broadcastGameMessage(Component.empty());
+    endMessage.addExtra(traitorTeam.getTDColor() + traitorTeam.getDisplayName() + "s§p: "
+        + String.join(", ", traitorTeam.getUsers().stream().map(User::getTDChatName).toList()));
 
-    this.broadcastGameMessage(
-        Component.text(traitorTeam.getDisplayName() + "s ", traitorTeam.getTextColor())
-            .append(Component.text(": ", ExTextColor.PUBLIC))
-            .append(Chat.listToComponent(
-                traitorTeam.getUsers().stream().map(User::getChatNameComponent)
-                    .toList(),
-                ExTextColor.VALUE, ExTextColor.PUBLIC)));
-
-    this.broadcastGameMessage(Chat.getLongLineSeparator());
-  }
-
-  private void broadcastWinner(Team team) {
-    if (team != null) {
-      Server.broadcastTitle(Component.text(team.getDisplayName() + "s", team.getTextColor())
-              .append(Component.text(" win", ExTextColor.PUBLIC)), Component.empty(),
-          Duration.ofSeconds(5));
-      this.broadcastGameMessage(
-          Component.text(team.getDisplayName() + "s", team.getTextColor())
-              .append(Component.text(" wins", ExTextColor.PUBLIC)));
-      for (User user : team.getUsers()) {
-        user.addCoins(TraitorInwolfedServer.WIN_COINS, true);
-      }
-    } else {
-      Server.broadcastTDTitle("§pGame has ended", "", Duration.ofSeconds(5));
-      this.broadcastGameMessage(Component.text(" Game has ended", ExTextColor.PUBLIC));
-    }
-
-  }
-
-  @Override
-  public void onGameUserQuit(GameUser gameUser) {
-    this.checkGameEnd();
-  }
-
-  @Override
-  public void onGameUserQuitBeforeStart(GameUser gameUser) {
-    this.checkGameEnd();
+    endMessage.send();
   }
 
   @Override
@@ -293,10 +242,6 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
 
   public DeadManager getDeadManager() {
     return deadManager;
-  }
-
-  public UserManager getTraitorInwolfedUserManager() {
-    return userManager;
   }
 
   @Override
