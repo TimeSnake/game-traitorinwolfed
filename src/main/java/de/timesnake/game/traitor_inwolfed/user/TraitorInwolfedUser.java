@@ -88,7 +88,7 @@ public class TraitorInwolfedUser extends GameUser {
   }
 
   @Override
-  public @Nullable ExLocation onGameRespawn() {
+  public @Nullable ExLocation getRespawnLocation() {
     this.joinSpectator();
     TraitorInwolfedServer.checkGameEnd();
     return TraitorInwolfedServer.getMap().getSpectatorLocation();
