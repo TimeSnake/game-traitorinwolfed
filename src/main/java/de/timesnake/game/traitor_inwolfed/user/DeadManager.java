@@ -12,13 +12,12 @@ import de.timesnake.basic.bukkit.util.world.ExLocation;
 import de.timesnake.basic.bukkit.util.world.entity.PacketPlayer;
 import de.timesnake.basic.game.util.game.Team;
 import de.timesnake.basic.loungebridge.util.tool.GameTool;
+import de.timesnake.basic.loungebridge.util.tool.advanced.DeadPlayer;
 import de.timesnake.basic.loungebridge.util.tool.scheduler.ResetableTool;
 import de.timesnake.game.traitor_inwolfed.main.GameTraitorInwolfed;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedServer;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedTeam;
 import de.timesnake.library.basic.util.Status;
-import de.timesnake.library.basic.util.Tuple;
-import de.timesnake.library.chat.ExTextColor;
 import de.timesnake.library.entities.entity.PlayerBuilder;
 import net.kyori.adventure.text.Component;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -30,7 +29,6 @@ import org.bukkit.event.Listener;
 
 import java.time.Duration;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 public class DeadManager implements Listener, GameTool, ResetableTool {
@@ -62,104 +60,65 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
     TraitorInwolfedUser user = ((TraitorInwolfedUser) e.getUser());
     Location location = e.getTo();
 
-    if (user.isDead() || !user.getStatus().equals(Status.User.IN_GAME)
-        || user.getTeam() == null) {
+    if (user.isDead() || !user.getStatus().equals(Status.User.IN_GAME) || user.getTeam() == null) {
       return;
     }
 
     for (DeadBody deadBody : this.deadBodies) {
       if (deadBody.getLocation().getWorld().equals(location.getWorld())
           && deadBody.getLocation().distanceSquared(location) <= RADIUS * RADIUS) {
-        deadBody.found(user,
-            user.getTeam().equals(TraitorInwolfedServer.getGame().getDetectiveTeam()));
+        deadBody.found(user, user.getTeam().equals(TraitorInwolfedServer.getGame().getDetectiveTeam()));
       }
     }
   }
 
-  public static class DeadBody {
+  public static class DeadBody extends DeadPlayer {
 
-    private final String name;
-    private final Tuple<String, String> textures;
-    private final ExLocation location;
     private Team team;
-    private PacketPlayer bodyEntity;
     private boolean found = false;
     private boolean identified = false;
 
     public DeadBody(User user, Team team, ExLocation location) {
-      this.name = user.getName();
-      this.textures = user.asPlayerBuilder().getTextures();
+      super(user, location);
       this.team = team;
-      this.location = location;
-    }
-
-    public String getName() {
-      return name;
     }
 
     public Team getTeam() {
       return team;
     }
 
-    public Location getLocation() {
-      return location;
-    }
-
-    public PacketPlayer getBodyEntity() {
-      return bodyEntity;
-    }
-
-    public void found(TraitorInwolfedUser user, boolean identify) {
+    public void found(User user, boolean identify) {
       if (!user.isSneaking() && !this.found) {
         user.sendActionBarText(Component.text("Sneak to find the body"));
         return;
       }
 
-      if (!user.getTeam().equals(TraitorInwolfedServer.getGame().getTraitorTeam())
+      if (!((TraitorInwolfedUser) user).getTeam().equals(TraitorInwolfedServer.getGame().getTraitorTeam())
           && this.getTeam().equals(TraitorInwolfedServer.getGame().getDetectiveTeam())) {
-        if (user.changeToDetective()) {
+        if (((TraitorInwolfedUser) user).changeToDetective()) {
           this.team = TraitorInwolfedServer.getGame().getInnocentTeam();
           return;
         }
       }
 
       if (this.identified) {
-        user.showTitle(Component.empty(),
-            Component.text(this.name, ExTextColor.VALUE)
-                .append(Component.text(" was a ", ExTextColor.WARNING))
-                .append(Component.text(this.getTeam().getDisplayName(),
-                    this.team.getTextColor())),
-            Duration.ofSeconds(5), Duration.ZERO, Duration.ZERO);
+        user.showTDTitle("", "§v" + this.name + "§w was a " + this.getTeam().getTDColor() +
+            this.getTeam().getDisplayName(), Duration.ofSeconds(5), Duration.ZERO, Duration.ZERO);
         return;
       }
 
       if (identify) {
         this.identified = true;
         if (this.found) {
-          Server.broadcastTitle(Component.empty(),
-              Component.text(this.name, ExTextColor.VALUE)
-                  .append(Component.text(" was a ", ExTextColor.WARNING))
-                  .append(Component.text(this.getTeam().getDisplayName(),
-                      this.team.getTextColor())),
-              Duration.ofSeconds(5));
-          TraitorInwolfedServer.broadcastGameMessage(
-              Component.text(this.name, ExTextColor.VALUE)
-                  .append(Component.text(" was a ", ExTextColor.WARNING))
-                  .append(Component.text(this.getTeam().getDisplayName(),
-                      this.team.getTextColor())));
+          Server.broadcastTDTitle("", "§v" + this.name + "§w was a " + this.getTeam().getTDColor() +
+              this.getTeam().getDisplayName(), Duration.ofSeconds(5), Duration.ZERO, Duration.ZERO);
+          TraitorInwolfedServer.broadcastGameTDMessage("§v" + this.name + "§w was a " + this.getTeam().getTDColor() +
+              this.getTeam().getDisplayName());
         } else {
-          Server.broadcastTitle(Component.empty(),
-              Component.text(this.getTeam().getDisplayName(),
-                      this.team.getTextColor())
-                  .append(Component.text(" " + this.name, ExTextColor.WARNING))
-                  .append(Component.text(" was found dead", ExTextColor.WARNING)),
-              Duration.ofSeconds(5), Duration.ZERO, Duration.ZERO);
-          TraitorInwolfedServer.broadcastGameMessage(
-              Component.text(this.getTeam().getDisplayName(),
-                      this.getTeam().getTextColor())
-                  .append(Component.text(this.name, ExTextColor.VALUE))
-                  .append(Component.text(" was found dead",
-                      ExTextColor.WARNING)));
+          Server.broadcastTDTitle("", this.getTeam().getTDColor() + this.getTeam().getDisplayName()
+              + " §v" + this.name + "§w was found dead", Duration.ofSeconds(5), Duration.ZERO, Duration.ZERO);
+          TraitorInwolfedServer.broadcastGameTDMessage(this.getTeam().getTDColor() + this.getTeam().getDisplayName()
+              + " §v" + this.name + "§w was found dead");
         }
         return;
       }
@@ -168,11 +127,9 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
         return;
       }
       this.found = true;
-      Server.broadcastTitle(Component.empty(), Component.text(this.name, ExTextColor.VALUE)
-              .append(Component.text(" was found dead", ExTextColor.WARNING)),
-          Duration.ofSeconds(5));
-      TraitorInwolfedServer.broadcastGameMessage(Component.text(this.name, ExTextColor.VALUE)
-          .append(Component.text(" was found dead", ExTextColor.WARNING)));
+
+      Server.broadcastTDTitle("", "§v" + this.name + "§w was found dead", Duration.ofSeconds(5));
+      TraitorInwolfedServer.broadcastGameTDMessage("§v" + this.name + "§w was found dead");
     }
 
     public void spawn() {
@@ -197,25 +154,13 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
       Server.getEntityManager().registerEntity(this.bodyEntity);
     }
 
-    public void despawn() {
-      Server.getEntityManager().unregisterEntity(this.bodyEntity);
-    }
-
     @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      DeadBody deadBody = (DeadBody) o;
-      return Objects.equals(name, deadBody.name);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(name);
+    protected void onEntityBuild(PlayerBuilder<?, ?> builder) {
+      builder.applyOnEntity(e -> {
+        if (this.team.equals(TraitorInwolfedServer.getGame().getDetectiveTeam())) {
+          e.setItemSlot(EquipmentSlot.HEAD, TraitorInwolfedTeam.DETECTIVE_HELMET.getHandle());
+        }
+      });
     }
   }
 }
