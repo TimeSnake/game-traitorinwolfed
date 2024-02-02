@@ -31,33 +31,15 @@ public class TraitorInwolfedMap extends Map implements ResetableMap, Timeable {
   private static final int TELEPORTER_START_INDEX = 200;
   private static final int TELEPORTER_END_INDEX = 300;
 
-  private List<ExLocation> teleporterLocations;
+  private final List<ExLocation> teleporterLocations;
 
-  private int time;
+  private final int time;
 
   public TraitorInwolfedMap(DbMap map, boolean loadWorld) {
     super(map, loadWorld);
 
-    if (this.world == null) {
-      return;
-    }
-
-    int time = DEFAULT_TIME;
-
-    for (String info : super.getInfo()) {
-      String key = info.split("=")[0];
-      String value = info.split("=")[1];
-
-      if (key.equalsIgnoreCase("time")) {
-        try {
-          time = Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-          Loggers.GAME.warning("Can not load time of map " + this.getName());
-        }
-      }
-    }
-
-    this.time = time;
+    this.time = this.getProperty("time", Integer.class, DEFAULT_TIME,
+        v -> Loggers.GAME.warning("Can not load time of map " + this.getName()));
 
     this.getWorld().setGameRule(GameRule.DO_MOB_SPAWNING, false);
     this.getWorld().setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
