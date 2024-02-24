@@ -13,7 +13,8 @@ import de.timesnake.basic.loungebridge.util.game.ResetableMap;
 import de.timesnake.basic.loungebridge.util.tool.Timeable;
 import de.timesnake.basic.loungebridge.util.tool.advanced.ItemSpawner;
 import de.timesnake.database.util.game.DbMap;
-import de.timesnake.library.basic.util.Loggers;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.GameRule;
 
 import java.util.List;
@@ -31,6 +32,8 @@ public class TraitorInwolfedMap extends Map implements ResetableMap, Timeable {
   private static final int TELEPORTER_START_INDEX = 200;
   private static final int TELEPORTER_END_INDEX = 300;
 
+  private final Logger logger = LogManager.getLogger("traitor-inwolfed.map");
+
   private final List<ExLocation> teleporterLocations;
 
   private final int time;
@@ -39,7 +42,7 @@ public class TraitorInwolfedMap extends Map implements ResetableMap, Timeable {
     super(map, loadWorld);
 
     this.time = this.getProperty("time", Integer.class, DEFAULT_TIME,
-        v -> Loggers.GAME.warning("Can not load time of map " + this.getName()));
+        v -> this.logger.warn("Can not load time of map '{}'", this.getName()));
 
     this.getWorld().setGameRule(GameRule.DO_MOB_SPAWNING, false);
     this.getWorld().setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
@@ -68,7 +71,7 @@ public class TraitorInwolfedMap extends Map implements ResetableMap, Timeable {
 
     this.teleporterLocations = this.getLocations(TELEPORTER_START_INDEX, TELEPORTER_END_INDEX);
     if (this.teleporterLocations.isEmpty()) {
-      Loggers.GAME.warning("No teleporter locations found for map " + this.getName());
+      this.logger.warn("No teleporter locations found for map '{}'", this.getName());
     }
   }
 
