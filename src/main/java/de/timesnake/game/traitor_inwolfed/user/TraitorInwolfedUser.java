@@ -5,12 +5,15 @@
 package de.timesnake.game.traitor_inwolfed.user;
 
 import de.timesnake.basic.bukkit.util.Server;
+import de.timesnake.basic.bukkit.util.user.scoreboard.NameTagVisibility;
+import de.timesnake.basic.bukkit.util.user.scoreboard.TablistPlayer;
 import de.timesnake.basic.bukkit.util.world.ExLocation;
 import de.timesnake.basic.loungebridge.util.user.GameUser;
 import de.timesnake.game.traitor_inwolfed.main.GameTraitorInwolfed;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedServer;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedServerManager;
 import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedTeam;
+import de.timesnake.library.basic.util.Status;
 import net.kyori.adventure.text.Component;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -120,5 +123,12 @@ public class TraitorInwolfedUser extends GameUser {
 
       this.killDelay--;
     }, 0, 20, GameTraitorInwolfed.getPlugin());
+  }
+
+  @Override
+  public NameTagVisibility canSeeNameTagOf(TablistPlayer otherPlayer) {
+    return this.getTeam().equals(TraitorInwolfedServer.getGame().getTraitorTeam())
+        || this.hasStatus(Status.User.OUT_GAME, Status.User.SPECTATOR) ?
+        NameTagVisibility.ALWAYS : NameTagVisibility.NEVER;
   }
 }
