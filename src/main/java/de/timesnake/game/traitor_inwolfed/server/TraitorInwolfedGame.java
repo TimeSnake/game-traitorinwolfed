@@ -4,7 +4,6 @@
 
 package de.timesnake.game.traitor_inwolfed.server;
 
-import de.timesnake.basic.bukkit.util.exception.UnsupportedGroupRankException;
 import de.timesnake.basic.game.util.game.Map;
 import de.timesnake.basic.game.util.game.Team;
 import de.timesnake.basic.loungebridge.util.game.TmpGame;
@@ -28,7 +27,7 @@ public class TraitorInwolfedGame extends TmpGame {
   }
 
   @Override
-  public Team loadTeam(DbTeam team) throws UnsupportedGroupRankException {
+  public Team loadTeam(DbTeam team) {
     return new TraitorInwolfedTeam(team);
   }
 

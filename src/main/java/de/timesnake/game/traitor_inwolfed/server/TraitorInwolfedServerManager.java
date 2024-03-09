@@ -5,19 +5,17 @@
 package de.timesnake.game.traitor_inwolfed.server;
 
 import de.timesnake.basic.bukkit.util.Server;
-import de.timesnake.basic.bukkit.util.chat.ChatColor;
 import de.timesnake.basic.bukkit.util.user.User;
-import de.timesnake.basic.bukkit.util.user.scoreboard.*;
+import de.timesnake.basic.bukkit.util.user.scoreboard.ExSideboard;
 import de.timesnake.basic.bukkit.util.user.scoreboard.ExSideboard.LineId;
+import de.timesnake.basic.bukkit.util.user.scoreboard.ExSideboardBuilder;
 import de.timesnake.basic.bukkit.util.world.ExLocation;
 import de.timesnake.basic.game.util.game.Team;
 import de.timesnake.basic.loungebridge.util.server.EndMessage;
 import de.timesnake.basic.loungebridge.util.server.LoungeBridgeServerManager;
-import de.timesnake.basic.loungebridge.util.server.TablistManager;
 import de.timesnake.basic.loungebridge.util.tool.advanced.MapTimerTool;
 import de.timesnake.basic.loungebridge.util.tool.advanced.TimerTool;
 import de.timesnake.basic.loungebridge.util.user.GameUser;
-import de.timesnake.basic.loungebridge.util.user.TablistTeam;
 import de.timesnake.database.util.game.DbGame;
 import de.timesnake.database.util.game.DbTmpGame;
 import de.timesnake.game.traitor_inwolfed.main.Plugin;
@@ -116,32 +114,6 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
   @Override
   public GameUser loadUser(Player player) {
     return new TraitorInwolfedUser(player);
-  }
-
-  @Override
-  public TablistManager initTablistManager() {
-    return new TablistManager() {
-      @Override
-      protected TablistTeam loadGameTeam() {
-        return new TablistTeam("0", "game", "", ChatColor.WHITE, ChatColor.WHITE) {
-          @Override
-          public NameTagVisibility isNameTagVisibleBy(TablistablePlayer player,
-                                                      TablistableGroup otherGroup) {
-            TraitorInwolfedTeam traitorTeam = TraitorInwolfedServer.getGame()
-                .getTraitorTeam();
-            if (traitorTeam.equals(((TraitorInwolfedUser) player).getTeam())
-                && traitorTeam.equals(otherGroup)) {
-              return NameTagVisibility.ALWAYS;
-            }
-
-            if (TraitorInwolfedServer.getTablistSpectatorTeam().equals(otherGroup)) {
-              return NameTagVisibility.ALWAYS;
-            }
-            return NameTagVisibility.NEVER;
-          }
-        };
-      }
-    };
   }
 
   @Override
