@@ -60,7 +60,7 @@ public class TraitorInwolfedMap extends Map implements ResetableMap, Timeable {
     this.getWorld().restrict(Restriction.CRAFTING, true);
     this.getWorld().setExceptService(true);
 
-    for (int index : this.getLocationsIds(ITEM_SPAWNERS_START_INDEX, ITEM_SPAWNERS_END_INDEX)) {
+    for (int index : this.getLocationIds(ITEM_SPAWNERS_START_INDEX, ITEM_SPAWNERS_END_INDEX)) {
       TraitorInwolfedServer.getToolManager()
           .add(this, new ItemSpawner(index,
               TimeUnit.SECONDS,
