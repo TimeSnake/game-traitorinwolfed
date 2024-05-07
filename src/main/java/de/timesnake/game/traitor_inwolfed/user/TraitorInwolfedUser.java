@@ -23,6 +23,7 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
@@ -135,7 +136,7 @@ public class TraitorInwolfedUser extends GameUser {
   }
 
   @Override
-  public NameTagVisibility canSeeNameTagOf(TablistPlayer otherPlayer) {
+  public @NotNull NameTagVisibility canSeeNameTagOf(TablistPlayer otherPlayer) {
     if (this.getTeam() == null) {
       return super.canSeeNameTagOf(otherPlayer);
     }
