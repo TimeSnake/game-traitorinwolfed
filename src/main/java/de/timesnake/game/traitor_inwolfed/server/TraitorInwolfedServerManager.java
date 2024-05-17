@@ -178,7 +178,7 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
 
   @Override
   public boolean isRejoiningAllowed() {
-    return true;
+    return false;
   }
 
   @Override
