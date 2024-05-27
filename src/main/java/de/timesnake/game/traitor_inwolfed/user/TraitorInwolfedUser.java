@@ -130,6 +130,9 @@ public class TraitorInwolfedUser extends GameUser {
   @Override
   public TablistGroup getTablistGroup(TablistGroupType type) {
     if (de.timesnake.basic.game.util.game.TablistGroupType.GAME_TEAM.equals(type)) {
+      if (this.hasStatus(Status.User.SPECTATOR)) {
+        return null;
+      }
       return LoungeBridgeServer.getTablistGameTeam();
     }
     return super.getTablistGroup(type);
