@@ -107,6 +107,7 @@ public class TraitorInwolfedUser extends GameUser {
     this.killDelay = TraitorInwolfedServer.KILL_DELAY_SEC;
 
     this.addBossBar(this.killDelayBossBar);
+    this.setWalkSpeed(0.18f);
 
     this.killDelayTask = Server.runTaskTimerSynchrony(() -> {
       this.killDelayBossBar.setTitle("Kill Delay: §7" + this.killDelay);
