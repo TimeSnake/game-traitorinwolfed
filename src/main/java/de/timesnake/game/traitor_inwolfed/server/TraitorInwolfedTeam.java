@@ -25,17 +25,17 @@ public class TraitorInwolfedTeam extends Team {
       .immutable();
 
   public static final List<ExItemStack> INNOCENT_ITEMS = List.of(
-      new ExItemStack(Material.IRON_SWORD).addExEnchantment(Enchantment.DAMAGE_ALL, 10)
+      new ExItemStack(Material.IRON_SWORD).addExEnchantment(Enchantment.SHARPNESS, 10)
           .unbreakable().setSlot(0).setDropable(false).immutable(),
-      new ExItemStack(Material.BOW).setSlot(1).addExEnchantment(Enchantment.ARROW_DAMAGE, 10)
+      new ExItemStack(Material.BOW).setSlot(1).addExEnchantment(Enchantment.POWER, 10)
           .setDropable(false).immutable(),
       TraitorInwolfedServer.PLAYER_TRACKER,
       TraitorInwolfedServer.FOOD
   );
   public static final List<ExItemStack> DETECTIVE_ITEMS = List.of(
-      new ExItemStack(Material.GOLDEN_SWORD).addExEnchantment(Enchantment.DAMAGE_ALL, 10)
+      new ExItemStack(Material.GOLDEN_SWORD).addExEnchantment(Enchantment.SHARPNESS, 10)
           .unbreakable().setSlot(0).setDropable(false).immutable(),
-      new ExItemStack(Material.BOW).setSlot(1).addExEnchantment(Enchantment.ARROW_DAMAGE, 10)
+      new ExItemStack(Material.BOW).setSlot(1).addExEnchantment(Enchantment.POWER, 10)
           .setDropable(false).immutable(),
       ARROW.cloneWithId().asQuantity(3).setSlot(6).immutable(),
       TraitorInwolfedServer.PLAYER_TRACKER,
@@ -43,9 +43,9 @@ public class TraitorInwolfedTeam extends Team {
       DETECTIVE_HELMET
   );
   public static final List<ExItemStack> TRAITOR_ITEMS = List.of(
-      new ExItemStack(Material.IRON_SWORD).addExEnchantment(Enchantment.DAMAGE_ALL, 10)
+      new ExItemStack(Material.IRON_SWORD).addExEnchantment(Enchantment.SHARPNESS, 10)
           .unbreakable().setSlot(0).setDropable(false).immutable(),
-      new ExItemStack(Material.BOW).setSlot(1).addExEnchantment(Enchantment.ARROW_DAMAGE, 10)
+      new ExItemStack(Material.BOW).setSlot(1).addExEnchantment(Enchantment.POWER, 10)
           .setDropable(false).immutable(),
       TraitorInwolfedServer.PLAYER_TRACKER,
       TraitorInwolfedServer.FOOD
