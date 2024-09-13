@@ -20,9 +20,9 @@ import de.timesnake.game.traitor_inwolfed.server.TraitorInwolfedTeam;
 import de.timesnake.library.basic.util.Status;
 import de.timesnake.library.entities.entity.PlayerBuilder;
 import net.kyori.adventure.text.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.player.Player;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -133,7 +133,7 @@ public class DeadManager implements Listener, GameTool, ResetableTool {
     }
 
     public void spawn() {
-      Player deadBody = PlayerBuilder.ofName(this.name, this.textures.getA(), this.textures.getB())
+      ServerPlayer deadBody = PlayerBuilder.ofName(this.name, this.textures.getA(), this.textures.getB())
           .applyOnEntity(e -> {
             e.setLevel(this.location.getExWorld().getHandle());
             e.setPos(this.location.getX(), this.location.getY() + 0.2, this.location.getZ());
