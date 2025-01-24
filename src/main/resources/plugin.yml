@@ -1,5 +1,5 @@
 main: de.timesnake.game.traitor_inwolfed.main.GameTraitorInwolfed
-version: 1.4.0
+version: ${version}
 name: game-traitor-inwolfed
 author: timesnake
 depend: [ basic-lounge-bridge ]
