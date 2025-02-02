@@ -18,7 +18,6 @@ import de.timesnake.basic.loungebridge.util.tool.advanced.TimerTool;
 import de.timesnake.basic.loungebridge.util.user.GameUser;
 import de.timesnake.database.util.game.DbGame;
 import de.timesnake.database.util.game.DbTmpGame;
-import de.timesnake.game.traitor_inwolfed.main.Plugin;
 import de.timesnake.game.traitor_inwolfed.user.DeadManager;
 import de.timesnake.game.traitor_inwolfed.user.TraitorInwolfedUser;
 import de.timesnake.game.traitor_inwolfed.user.UserManager;
@@ -114,11 +113,6 @@ public class TraitorInwolfedServerManager extends LoungeBridgeServerManager<Trai
   @Override
   public GameUser loadUser(Player player) {
     return new TraitorInwolfedUser(player);
-  }
-
-  @Override
-  public Plugin getGamePlugin() {
-    return Plugin.TRAITOR_INWOLFED;
   }
 
   @Override
