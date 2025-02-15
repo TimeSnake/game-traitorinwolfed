@@ -5,10 +5,11 @@
 package de.timesnake.game.traitor_inwolfed.server;
 
 import de.timesnake.basic.bukkit.util.user.inventory.ExItemStack;
-import de.timesnake.basic.bukkit.util.user.scoreboard.ExSideboard;
+import de.timesnake.basic.bukkit.util.user.scoreboard.KeyedSideboard;
 import de.timesnake.basic.loungebridge.util.server.LoungeBridgeServer;
-import java.util.List;
 import org.bukkit.Material;
+
+import java.util.List;
 
 public class TraitorInwolfedServer extends LoungeBridgeServer {
 
@@ -40,7 +41,7 @@ public class TraitorInwolfedServer extends LoungeBridgeServer {
     return server.checkGameEnd();
   }
 
-  public static ExSideboard getGameSideboard() {
+  public static KeyedSideboard getGameSideboard() {
     return server.getGameSideboard();
   }
 
