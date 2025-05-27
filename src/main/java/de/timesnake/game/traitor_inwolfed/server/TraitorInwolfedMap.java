@@ -7,7 +7,7 @@ package de.timesnake.game.traitor_inwolfed.server;
 import de.timesnake.basic.bukkit.util.Server;
 import de.timesnake.basic.bukkit.util.server.TimeUnit;
 import de.timesnake.basic.bukkit.util.world.ExLocation;
-import de.timesnake.basic.bukkit.util.world.ExWorld.Restriction;
+import de.timesnake.basic.bukkit.util.world.ExWorldOption;
 import de.timesnake.basic.game.util.game.Map;
 import de.timesnake.basic.loungebridge.util.game.ResetableMap;
 import de.timesnake.basic.loungebridge.util.tool.Timeable;
@@ -48,16 +48,16 @@ public class TraitorInwolfedMap extends Map implements ResetableMap, Timeable {
     this.getWorld().setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
     this.getWorld().setGameRule(GameRule.RANDOM_TICK_SPEED, 0);
     this.getWorld().setGameRule(GameRule.DO_PATROL_SPAWNING, false);
-    this.getWorld().restrict(Restriction.BLOCK_BREAK, true);
-    this.getWorld().restrict(Restriction.BLOCK_PLACE, true);
-    this.getWorld().restrict(Restriction.CAKE_EAT, false);
-    this.getWorld().restrict(Restriction.ENTITY_EXPLODE, true);
-    this.getWorld().restrict(Restriction.FIRE_SPREAD_SPEED, 0f);
-    this.getWorld().restrict(Restriction.FLUID_PLACE, true);
-    this.getWorld().restrict(Restriction.FLUID_COLLECT, true);
-    this.getWorld().restrict(Restriction.ENTITY_BLOCK_BREAK, true);
-    this.getWorld().restrict(Restriction.PLACE_IN_BLOCK, true);
-    this.getWorld().restrict(Restriction.CRAFTING, true);
+    this.getWorld().setOption(ExWorldOption.ALLOW_BLOCK_BREAK, false);
+    this.getWorld().setOption(ExWorldOption.ALLOW_BLOCK_PLACE, false);
+    this.getWorld().setOption(ExWorldOption.ALLOW_CAKE_EAT, true);
+    this.getWorld().setOption(ExWorldOption.ENABLE_ENTITY_EXPLOSION, false);
+    this.getWorld().setOption(ExWorldOption.FIRE_SPREAD_SPEED, 0f);
+    this.getWorld().setOption(ExWorldOption.ALLOW_FLUID_PLACE, false);
+    this.getWorld().setOption(ExWorldOption.ALLOW_FLUID_COLLECT, false);
+    this.getWorld().setOption(ExWorldOption.ALLOW_ENTITY_BLOCK_BREAK, false);
+    this.getWorld().setOption(ExWorldOption.ALLOW_PLACE_IN_BLOCK, false);
+    this.getWorld().setOption(ExWorldOption.ALLOW_CRAFTING, false);
     this.getWorld().setExceptService(true);
 
     for (int index : this.getLocationIds(ITEM_SPAWNERS_START_INDEX, ITEM_SPAWNERS_END_INDEX)) {
